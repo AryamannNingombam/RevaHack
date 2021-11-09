@@ -1,0 +1,32 @@
+{
+  "name": "mrex-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "clean": "del ./dist/*",
+    "build": "npm run clean && tsc"
+  },
+  "author": "ary_amann",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "form-data": "^4.0.0",
+    "ipfs-http-client": "^53.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.10",
+    "multer": "^1.4.3",
+    "nodemailer": "^6.7.0",
+    "randomstring": "^1.2.1"
+  },
+  "devDependencies": {
+    "del-cli": "^4.0.1",
+    "nodemon": "^2.0.13"
+  }
+}
