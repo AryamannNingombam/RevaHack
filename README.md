@@ -8,15 +8,19 @@
 
 ## OUR AIM
 
-Our aim is to revolutionalize the way medical records are stored and shared between doctors and clients by decentralizing the process.
+Our aim is to revolutionalize the way medical records are stored and shared between users by decentralizing the process.
 
 ## HOW WE KEEP THE DATA SECURE
 
-Every file that is uploaded by the client will be *encrypted* and will be uploaded on **_IPFS_**. The Client will not have to trust any central authority with their sensitive medical records but they will be able to access them using their credentials
+<p align="center">
+  <img src="./ipfs.png" alt="Sublime's custom image"/>
+</p>
+
+Every file that is uploaded by the client will be _encrypted_ and will be uploaded on **_IPFS_**. The user will not have to trust any central authority with their sensitive medical records but they will be able to access them using their credentials
 
 ## SHARING REPORTS
 
-Clients will also have the option to share reports with doctors who will get access to the clients key for that report, and they will be able to download the report
+Users will also have the option to share reports with other users who will get access to the user's key for that report, and they will be able to download the report
 
 ### **_Our team members include:_**
 

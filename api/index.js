@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 const express = require('express');
 const {
     ConnectToDB
-} = require('../../MRex_Reva/api/config/db.config')
+} = require('./config/db.config')
 const cors = require('cors');
 
 dotenv.config({

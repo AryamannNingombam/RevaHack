@@ -8,7 +8,7 @@ const ReportSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required: true,
     },
-    doctors: {
+    access: {
         type: [mongoose.Types.ObjectId],
         default: [],
         required: true,
