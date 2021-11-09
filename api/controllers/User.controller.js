@@ -2,6 +2,97 @@ const UserModel = require("../models/User.model");
 
 
 
+exports.GetAllAccessedReportsForUser = (req, res, next) => {
+    const {
+        email
+    } = req.user;
+    if (!email) return res.status(500).json({
+        success: false,
+        message: "Required values not provided!"
+    })
+    UserModel.findOne({
+            email
+        })
+        .then(async user => {
+            const reports = [];
+            for (let report of user.accessedReports) {
+                const reportData = await ReportModel.findById(report);
+                reports.push(reportData);
+            }
+            return res.status(200).json({
+                success: true,
+                reports
+            })
+        })
+        .catch(err => {
+            console.log('error');
+            console.log(err);
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "Unknown server error!"
+                })
+        })
+}
+
+
+exports.GetAllReportsForUser = (req, res, next) => {
+    const {
+        email
+    } = req.user;
+    if (!user) return res.status(500).json({
+        success: false,
+        message: "Required values not provided!"
+    })
+    UserModel.findOne({
+            email
+        })
+        .then(async user => {
+            const reports = [];
+            for (let report of user.reports) {
+                const reportData = await ReportModel.findById(report);
+                reports.push(reportData);
+            }
+            return res.status(200).json({
+                success: true,
+                reports
+            })
+        })
+        .catch(err => {
+            console.log('error');
+            console.log(err);
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "Unknown server error!"
+                })
+        })
+}
+
+
+
+exports.GetAllUsers = (req, res, next) => {
+    return UserModel.find({})
+        .then(users => {
+            return res.status(200)
+                .json({
+                    success: true,
+                    users
+                })
+
+        })
+        .catch(err => {
+            console.log(("error"));
+            console.log(err);
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "Unknown server error!"
+
+                })
+        })
+}
+
 
 
 
@@ -70,7 +161,7 @@ exports.SignIn = (req, res, next) => {
                     })
                 }
 
-                if (!jwtHash) {
+                if (!HASH) {
                     throw new Error('Hash not provided!')
                 }
                 const userData = {
@@ -79,7 +170,7 @@ exports.SignIn = (req, res, next) => {
                 }
                 const token = jwt.sign({
                     userData
-                }, jwtHash, {
+                }, HASH, {
                     expiresIn: '10h',
                 })
                 return res.status(200).json({
@@ -114,6 +205,37 @@ exports.CheckedSignedIn = (req, res, next) => {
 }
 
 
+exports.UpdateUserDetails = (req, res, next) => {
+    const {
+        _id,
+        newDetails
+    } = req.body;
+    if (!_id || !newDetails) return res.status(500)
+        .json({
+            success: false,
+            message: "Required values not provided!"
+        })
+    return UserModel.findOneAndUpdate({
+            _id
+        }, newDetails, {
+            new: true
+        })
+        .then(u => {
+            return res.status(200)
+                .json({
+                    success: true,
+                })
+        })
+        .catch(err => {
+            console.log('error');
+            console.log(err);
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "Unknown server error!"
+                })
+        })
+}
 
 
 exports.GetUserDetails = (req, res, next) => {

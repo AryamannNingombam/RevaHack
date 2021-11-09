@@ -1,6 +1,7 @@
 //date,user,id,doctorid,file || url
 const mongoose = require('mongoose')
 const DoctorModel = require('./Doctor.model');
+const UserModel = require('./User.model');
 
 
 const ReportSchema = new mongoose.Schema({
@@ -45,38 +46,38 @@ ReportSchema.methods.UpdateDate = async function () {
     report.date = new Date(Date.now())
     await report.save()
 }
-ReportSchema.methods.AddDoctor = async function (
-    newDoctor
+ReportSchema.methods.AddUser = async function (
+    newUser
 ) {
     const report = this
-    const doc = await DoctorModel.findById({
-        _id: newDoctor
+    const user = await UserModel.findById({
+        _id: newUser
     })
-    await doc.AddReport(report._id)
-    report.doctors.push(newDoctor)
+    await user.AddReport(report._id)
+    report.access.push(newUser)
     await report.save()
     return
 }
 
 ReportSchema.methods.DeleteReportData = async function () {
     const report = this
-    const doctors = report.doctors
-    for (let doctor of doctors) {
-        const doc = await DoctorModel.findById({
-            _id: doctor
+    const users = report.users
+    for (let user of users) {
+        const u = await UserModel.findById({
+            _id: user
         })
-        if (!doc) throw new Error('Doctor not found!')
-        await doc.DeleteReport(report._id)
+        if (!u) throw new Error('User not found!')
+        await u.DeleteReport(report._id)
     }
     return
 }
 
-ReportSchema.methods.CheckIfDoctorInWhitelist = async function (
-    doctorId,
+ReportSchema.methods.CheckIfUserInWhitelist = async function (
+    userId,
 ) {
     const report = this
-    const doctors = report.doctors
-    return doctors.indexOf(doctorId) > -1
+    const users = report.access
+    return users.indexOf(userId) > -1
 }
 
 module.exports = mongoose.model('Report', ReportSchema)

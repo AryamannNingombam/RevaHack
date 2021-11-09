@@ -24,6 +24,16 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   },
+  accessedReports: {
+    type: [mongoose.Types.ObjectId],
+    required: true,
+    default: []
+  },
+  reports: {
+    type: [mongoose.Types.ObjectId],
+    required: true,
+    default: []
+  },
   password: {
     type: String,
     required: true,
@@ -59,6 +69,24 @@ UserSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+UserSchema.methods.AddReport = async function (hash) {
+  let user = this;
+  user.accessedReports.push(hash);
+  await user.save();
+  return;
+}
+
+
+UserSchema.methods.DeleteReport = async function (hash) {
+  const user = this;
+  const index = user.accessedReports.indexOf(hash);
+  if (index > -1) {
+    user.accessedReports.splice(index, 1);
+  }
+  await user.save();
+  return;
+}
 
 UserSchema.methods.MatchPassword = async function (password) {
   const user = this;
