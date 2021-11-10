@@ -1,31 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { SafeArea } from "../../components/utility/safe-area.component";
-import { Pressable, StyleSheet, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import { BACKEND_URL } from "../../constants";
-import { GetAllReportsForUser } from "../../services/user.service";
-import {
-  GetReportDetails,
-  GiveReportAccessToUser,
-} from "../../services/report.service";
-import {
-  List,
-  Modal,
-  Portal,
-  Text,
-  Button,
-  Provider,
-  TextInput,
-} from "react-native-paper";
+import React, { useState, useEffect } from 'react';
+// import axios from "axios";
+import { useIsFocused } from '@react-navigation/native';
 
-import { MainContainer } from "../profile/Profile.styles";
-import { HeaderText } from "./Reports.styles";
+import { SafeArea } from '../../components/utility/safe-area.component';
+import { GetAllReportsForUser } from '../../services/user.service';
+import { GetReportDetails, GiveReportAccessToUser } from '../../services/report.service';
+import { List, Modal, Portal, Button, Provider, TextInput } from 'react-native-paper';
+
+import { MainContainer } from '../profile/Profile.styles';
+import { HeaderText } from './Reports.styles';
 
 export default function ReportPage() {
+  const isFocused = useIsFocused();
+
   const [visible, setVisible] = useState(false);
   const [currentRep, setCurrentRep] = useState(null);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [reports, setReports] = useState([{}]);
 
   const showModal = (id) => {
@@ -33,7 +23,7 @@ export default function ReportPage() {
     setVisible(true);
   };
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: "white", padding: 10 };
+  const containerStyle = { backgroundColor: 'white', padding: 10 };
 
   const shareUser = async () => {
     const res = await GiveReportAccessToUser({
@@ -45,18 +35,14 @@ export default function ReportPage() {
 
   useEffect(async () => {
     const res = await GetAllReportsForUser();
-    setReports(res.data["reports"]);
-  }, []);
+    setReports(res.data['reports']);
+  }, [isFocused]);
 
   return (
     <SafeArea>
       <Provider>
         <Portal>
-          <Modal
-            visible={visible}
-            onDismiss={hideModal}
-            contentContainerStyle={containerStyle}
-          >
+          <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
             <TextInput
               label="Email of doctor"
               value={email}

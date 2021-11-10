@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { SignInUser, SignUpUser } from '../services/user.service';
+import {
+  GetUserDetails,
+  SignInUser,
+  SignUpUser,
+  UpdateUserDetails,
+} from '../services/user.service';
 
 export const SignUpThunk = createAsyncThunk(
   'auth/signup-user',
@@ -27,6 +32,33 @@ export const LoginThunk = createAsyncThunk(
       });
   },
 );
+export const EditProfileThunk = createAsyncThunk(
+  '/api/user/update-user-details',
+  async (body, { rejectWithValue }) => {
+    console.log(body);
+    return UpdateUserDetails(body)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.log('error');
+        console.log(error);
+        return rejectWithValue(error);
+      });
+  },
+);
+
+export const GetUserDetailsThunk = createAsyncThunk(
+  '/api/user/get-user-details',
+  async (body, { rejectWithValue }) => {
+    console.log(body);
+    return GetUserDetails(body)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.log('error');
+        console.log(error);
+        return rejectWithValue(error);
+      });
+  },
+);
 
 const initialState = {
   token: null,
@@ -38,7 +70,8 @@ const slice = createSlice({
   initialState,
   reducers: {
     logout: (state, action) => {
-      state = initialState;
+      state.userData = null;
+      state.token = null;
       console.log('LOGGGGOUT');
       console.log(state);
     },
@@ -51,6 +84,16 @@ const slice = createSlice({
     [LoginThunk.rejected]: (state, action) => {
       console.log('Error signing in!');
       state = initialState;
+    },
+    [GetUserDetailsThunk.fulfilled]: (state, action) => {
+      console.log('FULLFILLED');
+      console.log('PAYLOAD', action.payload);
+      console.log('USR PAYLOAD', action.payload.user);
+
+      state.userData = action.payload.user;
+    },
+    [GetUserDetailsThunk.rejected]: (state, action) => {
+      console.log('Error getting details!');
     },
   },
 });

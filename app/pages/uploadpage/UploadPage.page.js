@@ -1,22 +1,17 @@
-import React from "react";
-import axios from "axios";
-import { SafeArea } from "../../components/utility/safe-area.component";
-import { StyleSheet, TextInput } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import { BACKEND_URL } from "../../constants";
+import React from 'react';
+import axios from 'axios';
+import { SafeArea } from '../../components/utility/safe-area.component';
+import { StyleSheet, TextInput } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { BACKEND_URL } from '../../constants';
 
-import { MainContainer } from "../profile/Profile.styles";
-import {
-  FormView,
-  HeaderText,
-  Label,
-  UploadContainer,
-} from "./UploadPage.styles";
+import { MainContainer } from '../profile/Profile.styles';
+import { FormView, HeaderText, Label, UploadContainer } from './UploadPage.styles';
 
-import * as DocumentPicker from "expo-document-picker";
-import { Colors } from "react-native-paper";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { AddReport } from "../../services/report.service";
+import * as DocumentPicker from 'expo-document-picker';
+import { Colors } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AddReport } from '../../services/report.service';
 
 const styles = StyleSheet.create({
   input: {
@@ -27,24 +22,28 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     padding: 10,
     borderRadius: 12,
-    backgroundColor: "#FFF",
-    color: "#1d1d1d",
+    backgroundColor: '#FFF',
+    color: '#1d1d1d',
   },
 });
 
 export default function UploadPage() {
+  const [text, onChangeText] = React.useState('');
+
   const _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
-      type: "image/*",
+      type: 'image/*',
     });
     console.log(result);
     if (result.uri) {
       let formdata = new FormData();
-      formdata.append("file", {
+      formdata.append('file', {
         uri: result.uri,
         name: result.name,
         type: result.mimeType,
       });
+
+      formdata.append('name', text);
 
       console.log({ formdata });
 
@@ -52,9 +51,6 @@ export default function UploadPage() {
       console.log(res.data);
     }
   };
-  const [text, onChangeText] = React.useState("Useless Text");
-  const [number, onChangeNumber] = React.useState(null);
-
   return (
     <SafeArea>
       <MainContainer>
@@ -63,8 +59,8 @@ export default function UploadPage() {
           <Label>Name of the Report</Label>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={onChangeText}
+            value={text}
             placeholder="Enter name of the Report"
           />
         </FormView>
@@ -72,7 +68,7 @@ export default function UploadPage() {
           <Label>Select your report to save</Label>
           <TouchableOpacity onPress={_pickDocument}>
             <UploadContainer>
-              <Icon name={"plus"} size={60} color={Colors.grey400}></Icon>
+              <Icon name={'plus'} size={60} color={Colors.grey400}></Icon>
             </UploadContainer>
           </TouchableOpacity>
         </FormView>

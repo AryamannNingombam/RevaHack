@@ -38,12 +38,13 @@ export const UserDetailContainer = styled.View`
 export const UserNameText = styled.Text`
   color: #575757;
   font-family: ${PRIMARY_FONT};
-  font-size: 28px;
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
   font-style: normal;
   font-weight: 700;
   line-height: 33px;
   letter-spacing: 0;
-  text-align: left;
 `;
 
 export const UserSubtitleText = styled.Text`
