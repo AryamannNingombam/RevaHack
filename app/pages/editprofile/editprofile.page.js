@@ -7,11 +7,30 @@ import { useNavigation } from '@react-navigation/core';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button, TextInput } from 'react-native-paper';
 import { PRIMARY_FONT } from '../../constants';
+import { UpdateUserDetails } from '../../services/user.service';
 
 
 export default function EditProfilePage() {
     const userDetails = store.getState().auth.userData;
     const navigation = useNavigation();
+    const [name,setName] = useState(userDetails.name);
+    const [dateOfBirth,setDateOfBirth] = useState(userDetails.dateOfBirth);
+    const [email,setEmail] = useState(userDetails.email);
+    const [phoneNumber,setPhoneNumber] = useState(userDetails.phoneNumber);
+
+    const onSaveButtonClick =()=>{
+        UpdateUserDetails({name,dateOfBirth,email,phoneNumber})
+        .then(response=>response.data)
+        .then(data=>{
+            console.log(data);
+        })
+        .catch(err=>{
+            console.log('error');
+            console.log(err)
+        })
+    }
+    
+
   return (
     <SafeArea>
         <MainContainer> 
@@ -29,35 +48,38 @@ export default function EditProfilePage() {
             <FormSection>
                 <TextContainer>
                 <TextInput
-                value={userDetails.name}
+                onChangeText={(text)=>setName(text)}
+                value={name}
                 selectionColor={'#3DBBF1'}
                 activeUnderlineColor={'#3DBBF1'}
                 style={{'borderRadius':"5px",backgroundColor:"white",color:'#3DBBF1'}}  label='Name'/>
                 </TextContainer>
                 <TextContainer>
                 <TextInput
+                onChangeText={(text)=>setDateOfBirth(text)}
                 selectionColor={'#3DBBF1'}
                 activeUnderlineColor={'#3DBBF1'}
-                value={(new Date(userDetails.dateOfBirth)).toLocaleDateString()}
+                value={(new Date(dateOfBirth)).toLocaleDateString()}
                 style={{'borderRadius':"5px",backgroundColor:"white",color:'#3DBBF1'}}  label='Date Of Birth'/>
                 </TextContainer>
                 <TextContainer>
                 <TextInput
-                value={userDetails.email}
+                onChangeText={(text)=>setEmail(text)}
+                value={email}
                 selectionColor={'#3DBBF1'}
                 activeUnderlineColor={'#3DBBF1'}
                 style={{'borderRadius':"5px",backgroundColor:"white",color:'#3DBBF1'}} label='Email'/>
                 </TextContainer>
                 <TextContainer>
                 <TextInput
-                value={userDetails.phoneNumber.toString()} 
-                
+                value={phoneNumber.toString()} 
+                onChangeText={(text)=>setPhoneNumber(text)}
                 selectionColor={'#3DBBF1'}
                 activeUnderlineColor={'#3DBBF1'}
                 style={{'borderRadius':"5px",backgroundColor:"white",color:'#3DBBF1'}} label='Phone Number'/>
                 </TextContainer>
                 <SaveButtonSection>
-                    <Button style={{'borderRadius':"30px", 'backgroundColor':'black','color':'white','fontFamily':`${PRIMARY_FONT}`}} mode="contained">Save</Button>
+                    <Button onPress={onSaveButtonClick} style={{'borderRadius':"30px", 'backgroundColor':'black','color':'white','fontFamily':`${PRIMARY_FONT}`}} mode="contained">Save</Button>
                 </SaveButtonSection>
                 
                 

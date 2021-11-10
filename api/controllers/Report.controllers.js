@@ -6,7 +6,6 @@ const client = ipfs.create("https://ipfs.infura.io:5001/api/v0");
 // sample report 618bb2d54bc63132dcc0ac6f
 exports.AddReport = async (req, res, next) => {
   if (req.file) {
-    let body = req.body;
     const algorithm = "aes-256-cbc";
     const secretKey = res.locals.key + res.locals.key;
     const iv = "5183666c72eec9e4";
@@ -35,6 +34,7 @@ exports.AddReport = async (req, res, next) => {
         secretKey,
       },
       date: new Date(Date.now()),
+      name: req.body.name,
     };
     ReportModel.create(reportBody)
       .then(async (r) => {
@@ -69,51 +69,55 @@ exports.AddReport = async (req, res, next) => {
 };
 
 exports.GiveReportAccessToUser = async (req, res, next) => {
-    const {
-        reportId,
-        email
-    } = req.body;
-    if (!reportId || !userId) {
-        return res.status(500)
-            .json({
-                success: false,
-                message: "Required values not provided!"
-            })
-    }
-    const report = await ReportModel.findOne({
-        _id: reportId,
-        user: req.user.userData
+  const {
+    reportId,
+    email
+  } = req.body;
+  if (!reportId || !userId) {
+    return res.status(500)
+      .json({
+        success: false,
+        message: "Required values not provided!"
+      })
+  }
+  const report = await ReportModel.findOne({
+    _id: reportId,
+    user: req.user.userData
+  })
+  const user = await UserModel.findOne({
+    email
+  });
+  return report.AddUser(user._id)
+    .then(() => {
+      return res.status(200)
+        .json({
+          success: true,
+        })
     })
-    const user = await UserModel.findOne({email});
-    return report.AddUser(user._id)
-        .then(() => {
-            return res.status(200)
-                .json({
-                    success: true,
-                })
+    .catch(err => {
+      console.log("error");
+      console.log(err);
+      return res.status(500)
+        .json({
+          success: false,
+          message: "Unknown server error"
         })
-        .catch(err => {
-            console.log("error");
-            console.log(err);
-            return res.status(500)
-                .json({
-                    success: false,
-                    message: "Unknown server error"
-                })
-        })
+    })
 }
 
 
 exports.GetAllUsersForReport = (req, res, next) => {
-  const { _id } = req.params;
+  const {
+    _id
+  } = req.params;
   if (!_id)
     return res.status(500).json({
       success: false,
       message: "Required values not provided!",
     });
   ReportModel.findById({
-    _id,
-  })
+      _id,
+    })
     .then(async (report) => {
       const userDetails = [];
       for (let user of report.access) {
@@ -138,7 +142,9 @@ exports.GetAllUsersForReport = (req, res, next) => {
 };
 
 exports.DeleteReport = async (req, res, next) => {
-  const { _id } = req.body;
+  const {
+    _id
+  } = req.body;
   if (!_id)
     return res.status(500).json({
       success: false,
@@ -171,16 +177,18 @@ exports.DeleteReport = async (req, res, next) => {
 };
 
 exports.GetReport = async (req, res, next) => {
-  const { _id } = req.params;
+  const {
+    _id
+  } = req.params;
   if (!_id)
     return res.status(500).json({
       success: false,
       message: "Required values not provided!",
     });
   return ReportModel.findOne({
-    _id,
-    user: req.user.userId,
-  })
+      _id,
+      user: req.user.userId,
+    })
     .then(async (report) => {
       if (!report)
         return res.status(500).json({

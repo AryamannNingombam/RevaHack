@@ -175,6 +175,8 @@ exports.CheckedSignedIn = (req, res, next) => {
   });
 };
 
+
+
 exports.UpdateUserDetails = (req, res, next) => {
   const newDetails = req.body;
   if (!req.user.userId || !newDetails)
