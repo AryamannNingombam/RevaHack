@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from 'react';
 // import axios from "axios";
 import { useIsFocused } from '@react-navigation/native';
-
+import { useNavigation } from '@react-navigation/core';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { GetAllReportsForUser } from '../../services/user.service';
 import { GetReportDetails, GiveReportAccessToUser } from '../../services/report.service';
-import { List, Modal, Portal, Button, Provider, TextInput } from 'react-native-paper';
+import {
+  List,
+  Modal,
+  Portal,
+  Button,
+  Provider,
+  TextInput,
+  ActivityIndicator,
+  Colors,
+  Text,
+} from 'react-native-paper';
 
 import { MainContainer } from '../profile/Profile.styles';
+import { VerticalCenter } from '../viewreport/ViewReport.styles';
 import { HeaderText } from './Reports.styles';
 
 export default function ReportPage() {
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   const [visible, setVisible] = useState(false);
   const [currentRep, setCurrentRep] = useState(null);
   const [email, setEmail] = useState('');
-  const [reports, setReports] = useState([{}]);
+  const [reports, setReports] = useState([]);
 
   const showModal = (id) => {
     setCurrentRep(id);
@@ -33,9 +45,19 @@ export default function ReportPage() {
     console.log(res);
   };
 
-  useEffect(async () => {
-    const res = await GetAllReportsForUser();
-    setReports(res.data['reports']);
+  const getReports = async () => {
+    await GetAllReportsForUser()
+      .then((res) => {
+        console.log(res.data['reports']);
+        setReports(res.data['reports']);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getReports();
   }, [isFocused]);
 
   return (
@@ -60,28 +82,41 @@ export default function ReportPage() {
         </Portal>
         <MainContainer>
           <HeaderText>View Reports</HeaderText>
-          {reports.map((data, idx) => {
-            return (
-              <React.Fragment key={idx}>
-                <List.Item
-                  onPress={async () => {
-                    const res = await GetReportDetails(data._id);
-                    console.log(res.data);
-                  }}
-                  title={data.user}
-                  description={data.date}
-                  left={(props) => <List.Icon {...props} icon="file" />}
-                  right={(props) => {
-                    return (
-                      <Button {...props} onPress={() => showModal(data._id)}>
-                        Share
-                      </Button>
-                    );
-                  }}
-                />
-              </React.Fragment>
-            );
-          })}
+
+          {reports.length > 0 ? (
+            <>
+              {reports.map((data, idx) => {
+                return (
+                  <React.Fragment key={idx}>
+                    <List.Item
+                      onPress={() => {
+                        navigation.navigate('ViewReport', { id: data._id });
+                      }}
+                      title={data.name ? data.name : 'Report ' + (idx + 1)}
+                      description={Date(data.date)}
+                      left={(props) => <List.Icon {...props} icon="file" />}
+                      right={(props) => {
+                        return (
+                          <Button {...props} onPress={() => showModal(data._id)}>
+                            Share
+                          </Button>
+                        );
+                      }}
+                    />
+                  </React.Fragment>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              <VerticalCenter>
+                <ActivityIndicator animating={true} color={Colors.blue200} size={40} />
+                <Text style={{ textAlign: 'center', padding: 24 }}>
+                  We're getting your report, Hang on!
+                </Text>
+              </VerticalCenter>
+            </>
+          )}
         </MainContainer>
       </Provider>
     </SafeArea>

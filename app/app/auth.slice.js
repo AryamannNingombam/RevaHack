@@ -22,6 +22,7 @@ export const SignUpThunk = createAsyncThunk(
 export const LoginThunk = createAsyncThunk(
   '/auth/login-user',
   async (body, { rejectWithValue }) => {
+    console.log('BODY');
     console.log(body);
     return SignInUser(body)
       .then((response) => response.data)
