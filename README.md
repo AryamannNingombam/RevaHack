@@ -22,9 +22,20 @@ Every file that is uploaded by the client will be _encrypted_ and will be upload
 
 Users will also have the option to share reports with other users who will get access to the user's key for that report, and they will be able to download the report
 
+
+## TECH STACK USED
+  ### FRONTEND  
+  - Figma
+  - React Native  
+  - Redux Toolkit
+  ### BACKEND
+  - Node.js
+  - MonggoDB
+  - **_IPFS_**
+
 ### **_Our team members include:_**
 
-    1. Aryamann Ningombam
-    2. Dhruva Goyal
-    3. Aditya Mohan
-    4. Sitaraman S
+  1. Aryamann Ningombam
+  2. Dhruva Goyal
+  3. Aditya Mohan
+  4. Sitaraman S
