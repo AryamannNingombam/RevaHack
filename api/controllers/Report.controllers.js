@@ -69,33 +69,40 @@ exports.AddReport = async (req, res, next) => {
 };
 
 exports.GiveReportAccessToUser = async (req, res, next) => {
-  const { reportId, userId } = req.body;
-  if (!reportId || !userId) {
-    return res.status(500).json({
-      success: false,
-      message: "Required values not provided!",
-    });
-  }
-  const report = await ReportModel.findOne({
-    _id: reportId,
-    user: req.user.userData,
-  });
-  return report
-    .AddUser(userId)
-    .then(() => {
-      return res.status(200).json({
-        success: true,
-      });
+    const {
+        reportId,
+        email
+    } = req.body;
+    if (!reportId || !userId) {
+        return res.status(500)
+            .json({
+                success: false,
+                message: "Required values not provided!"
+            })
+    }
+    const report = await ReportModel.findOne({
+        _id: reportId,
+        user: req.user.userData
     })
-    .catch((err) => {
-      console.log("error");
-      console.log(err);
-      return res.status(500).json({
-        success: false,
-        message: "Unknown server error",
-      });
-    });
-};
+    const user = await UserModel.findOne({email});
+    return report.AddUser(user._id)
+        .then(() => {
+            return res.status(200)
+                .json({
+                    success: true,
+                })
+        })
+        .catch(err => {
+            console.log("error");
+            console.log(err);
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "Unknown server error"
+                })
+        })
+}
+
 
 exports.GetAllUsersForReport = (req, res, next) => {
   const { _id } = req.params;

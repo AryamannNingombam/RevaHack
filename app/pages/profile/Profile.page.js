@@ -51,7 +51,7 @@ export default function Profile() {
               icon="pencil"
               color={Colors.grey600}
               size={20}
-              onPress={() => console.log('Pressed')}
+              onPress={() => navigation.navigate('EditProfile')}
             />
           </EditBtnContainer>
         </BtnContainer>
