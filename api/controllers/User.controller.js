@@ -175,6 +175,23 @@ exports.CheckedSignedIn = (req, res, next) => {
   });
 };
 
+exports.UpdateUserHealthInfo = (req, res, next) => {
+  UserModel.findByIdAndUpdate({ _id: req.user.userId }, req.body, { new: true })
+    .then((u) => {
+      return res.status(200).json({
+        success: true,
+      });
+    })
+    .catch((err) => {
+      console.log("error");
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Unknown server error! ",
+      });
+    });
+};
+
 exports.UpdateUserDetails = (req, res, next) => {
   const newDetails = req.body;
   if (!req.user.userId || !newDetails)
