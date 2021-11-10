@@ -23,20 +23,7 @@ export default function ReportPage() {
   const [visible, setVisible] = useState(false);
   const [currentRep, setCurrentRep] = useState(null);
   const [email, setEmail] = useState("");
-  const reports = [
-    {
-      name: "COVID Report",
-      date: "24 March 2002",
-      data: "data",
-      id: "123",
-    },
-    {
-      name: "NASHE Report",
-      date: "24 March 2002",
-      data: "data",
-      id: "123",
-    },
-  ];
+  const [reports, setReports] = useState([{}]);
 
   const showModal = (id) => {
     setCurrentRep(id);
@@ -50,8 +37,8 @@ export default function ReportPage() {
   };
 
   useEffect(async () => {
-    const data = await GetAllReportsForUser();
-    console.log(data);
+    const res = await GetAllReportsForUser();
+    setReports(res.data["reports"]);
   }, []);
 
   return (
@@ -84,12 +71,12 @@ export default function ReportPage() {
             return (
               <>
                 <List.Item
-                  title={data.name}
+                  title={data.user}
                   description={data.date}
                   left={(props) => <List.Icon {...props} icon="file" />}
                   right={(props) => {
                     return (
-                      <Button {...props} onPress={() => showModal(data.id)}>
+                      <Button {...props} onPress={() => showModal(data._id)}>
                         Share
                       </Button>
                     );
