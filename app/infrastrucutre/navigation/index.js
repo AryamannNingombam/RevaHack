@@ -7,16 +7,17 @@ import { UserNavigator } from './user.navigator';
 
 export const Navigation = () => {
   const { userData } = useSelector((state) => state.auth);
-  console.log('INDEX WALA LMAO');
-  console.log(userData);
-
   return (
     <>
       <NavigationContainer>
-        {userData ? <>
-        {/* <AppNavigator /> */}
-         <UserNavigator/>
-         </> : <PreLoginNavigator />}
+        {userData ? (
+          <>
+            {/* <AppNavigator /> */}
+            <UserNavigator />
+          </>
+        ) : (
+          <PreLoginNavigator />
+        )}
       </NavigationContainer>
     </>
   );

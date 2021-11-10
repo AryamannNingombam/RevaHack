@@ -69,6 +69,15 @@ export default function ViewReportPage(props) {
           >
             Share
           </Button>
+          <Button
+            mode="contained"
+            style={{ marginTop: 20 }}
+            color={Colors.red600}
+            icon="delete"
+            labelStyle={{ color: '#FFF' }}
+          >
+            Delete
+          </Button>
         </ButtonsContainer>
       </MainContainer>
     </SafeArea>

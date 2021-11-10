@@ -32,9 +32,7 @@ export default function EditProfilePage() {
   const onSaveButtonClick = () => {
     setLoading(true);
     UpdateUserDetails({ name, dateOfBirth, email, phoneNumber })
-      .then((res) => {
-        console.log(res);
-      })
+      .then(() => {})
       .catch((err) => {
         console.log('error');
         console.log(err);

@@ -19,7 +19,6 @@ import { useNavigation } from '@react-navigation/core';
 import { UpdateUserDetails } from '../../services/user.service';
 export default function HealthInfoPage() {
   const userDetails = store.getState().auth.userData;
-  console.log(userDetails);
   const navigation = useNavigation();
   const [age, setAge] = useState(userDetails.age.toString());
   const [height, setHeight] = useState(userDetails.height.toString());
@@ -31,7 +30,6 @@ export default function HealthInfoPage() {
       .then((response) => response.data)
       .then(async () => {
         await store.dispatch(GetUserDetailsThunk()).then((res) => {
-          console.log(res);
           navigation.navigate('Profile');
         });
       })

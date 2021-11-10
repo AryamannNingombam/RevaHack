@@ -42,13 +42,11 @@ export default function ReportPage() {
       email: email,
       reportId: currentRep,
     });
-    console.log(res);
   };
 
   const getReports = async () => {
     await GetAllReportsForUser()
       .then((res) => {
-        console.log(res.data['reports']);
         setReports(res.data['reports']);
       })
       .catch((err) => {

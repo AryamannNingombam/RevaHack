@@ -22,8 +22,6 @@ export const SignUpThunk = createAsyncThunk(
 export const LoginThunk = createAsyncThunk(
   '/auth/login-user',
   async (body, { rejectWithValue }) => {
-    console.log('BODY');
-    console.log(body);
     return SignInUser(body)
       .then((response) => response.data)
       .catch((error) => {
@@ -50,7 +48,6 @@ export const EditProfileThunk = createAsyncThunk(
 export const GetUserDetailsThunk = createAsyncThunk(
   '/api/user/get-user-details',
   async (body, { rejectWithValue }) => {
-    console.log(body);
     return GetUserDetails(body)
       .then((response) => response.data)
       .catch((error) => {
@@ -73,7 +70,6 @@ const slice = createSlice({
     logout: (state, action) => {
       state.userData = null;
       state.token = null;
-      console.log('LOGGGGOUT');
       console.log(state);
     },
     refresh: (state, action) => {
@@ -92,10 +88,6 @@ const slice = createSlice({
       state = initialState;
     },
     [GetUserDetailsThunk.fulfilled]: (state, action) => {
-      console.log('FULLFILLED');
-      console.log('PAYLOAD', action.payload);
-      console.log('USR PAYLOAD', action.payload.user);
-
       state.userData = action.payload.user;
     },
     [GetUserDetailsThunk.rejected]: (state, action) => {
