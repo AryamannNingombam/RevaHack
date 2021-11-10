@@ -72,7 +72,7 @@ exports.AddReport = async (req, res, next) => {
 exports.GiveReportAccessToUser = async (req, res, next) => {
     const {
         reportId,
-        userId
+        email
     } = req.body;
     if (!reportId || !userId) {
         return res.status(500)
@@ -85,7 +85,8 @@ exports.GiveReportAccessToUser = async (req, res, next) => {
         _id: reportId,
         user: req.user.userData
     })
-    return report.AddUser(userId)
+    const user = await UserModel.findOne({email});
+    return report.AddUser(user._id)
         .then(() => {
             return res.status(200)
                 .json({

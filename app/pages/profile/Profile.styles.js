@@ -59,7 +59,7 @@ export const UserSubtitleText = styled.Text`
 export const UserImage = styled.Image`
   width: 160px;
   height: 160px;
-  border-radius: 32px;
+  border-radius: 50px;
   margin: 24px 0;
 `;
 

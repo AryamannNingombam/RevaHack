@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { PreLoginNavigator } from './prelogin.navigation';
 import { AppNavigator } from './app.navigation';
 import { useSelector } from 'react-redux';
+import { UserNavigator } from './user.navigator';
 
 export const Navigation = () => {
   const { userData } = useSelector((state) => state.auth);
@@ -12,7 +13,10 @@ export const Navigation = () => {
   return (
     <>
       <NavigationContainer>
-        {userData ? <AppNavigator /> : <PreLoginNavigator />}
+        {userData ? <>
+        {/* <AppNavigator /> */}
+         <UserNavigator/>
+         </> : <PreLoginNavigator />}
       </NavigationContainer>
     </>
   );
