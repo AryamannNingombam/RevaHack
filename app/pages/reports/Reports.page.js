@@ -5,7 +5,10 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { BACKEND_URL } from "../../constants";
 import { GetAllReportsForUser } from "../../services/user.service";
-
+import {
+  GetReportDetails,
+  GiveReportAccessToUser,
+} from "../../services/report.service";
 import {
   List,
   Modal,
@@ -32,8 +35,12 @@ export default function ReportPage() {
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 10 };
 
-  const shareUser = () => {
-    console.log({ email, currentRep });
+  const shareUser = async () => {
+    const res = await GiveReportAccessToUser({
+      email: email,
+      reportId: currentRep,
+    });
+    console.log(res);
   };
 
   useEffect(async () => {
@@ -67,10 +74,14 @@ export default function ReportPage() {
         </Portal>
         <MainContainer>
           <HeaderText>View Reports</HeaderText>
-          {reports.map((data) => {
+          {reports.map((data, idx) => {
             return (
-              <>
+              <React.Fragment key={idx}>
                 <List.Item
+                  onPress={async () => {
+                    const res = await GetReportDetails(data._id);
+                    console.log(res.data);
+                  }}
                   title={data.user}
                   description={data.date}
                   left={(props) => <List.Icon {...props} icon="file" />}
@@ -82,7 +93,7 @@ export default function ReportPage() {
                     );
                   }}
                 />
-              </>
+              </React.Fragment>
             );
           })}
         </MainContainer>

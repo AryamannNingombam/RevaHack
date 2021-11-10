@@ -3,7 +3,10 @@ const UserModel = require("../models/User.model");
 const crypto = require("crypto");
 const ipfs = require("ipfs-http-client");
 const client = ipfs.create("https://ipfs.infura.io:5001/api/v0");
-// sample report 618bb2d54bc63132dcc0ac6f
+
+
+
+
 exports.AddReport = async (req, res, next) => {
   if (req.file) {
     const algorithm = "aes-256-cbc";
@@ -73,38 +76,47 @@ exports.GiveReportAccessToUser = async (req, res, next) => {
     reportId,
     email
   } = req.body;
-  if (!reportId || !userId) {
-    return res.status(500)
-      .json({
-        success: false,
-        message: "Required values not provided!"
-      })
+  if (!reportId || !email) {
+    return res.status(500).json({
+      success: false,
+      message: "Required values not provided!",
+    });
   }
   const report = await ReportModel.findOne({
     _id: reportId,
-    user: req.user.userData
-  })
+    user: req.user.userData,
+  });
+  if (!report) {
+    return res.status(500).json({
+      success: false,
+      message: "No report found",
+    });
+  }
   const user = await UserModel.findOne({
     email
   });
-  return report.AddUser(user._id)
+  if (!user) {
+    return res.status(500).json({
+      success: false,
+      message: "No user found",
+    });
+  }
+  return report
+    .AddUser(user._id)
     .then(() => {
-      return res.status(200)
-        .json({
-          success: true,
-        })
+      return res.status(200).json({
+        success: true,
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("error");
       console.log(err);
-      return res.status(500)
-        .json({
-          success: false,
-          message: "Unknown server error"
-        })
-    })
-}
-
+      return res.status(500).json({
+        success: false,
+        message: "Unknown server error",
+      });
+    });
+};
 
 exports.GetAllUsersForReport = (req, res, next) => {
   const {
@@ -190,6 +202,7 @@ exports.GetReport = async (req, res, next) => {
       user: req.user.userId,
     })
     .then(async (report) => {
+      console.log(report);
       if (!report)
         return res.status(500).json({
           success: false,
