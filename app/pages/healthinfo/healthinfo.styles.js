@@ -55,6 +55,6 @@ export const BackArrowWrapper = styled.View`
 
 export const MainHeading = styled.Text`
   font-family: ${PRIMARY_FONT};
-  font-size: 30px;
+  font-size: 35px;
   color: #575757;
 `;

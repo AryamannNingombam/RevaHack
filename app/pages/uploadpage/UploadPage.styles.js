@@ -51,3 +51,20 @@ export const UploadContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const UploadButtonContainer = styled.View`
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const DeleteBtn = styled.View`
+  transform: translateY(-210px);
+  background: #ffcfc2;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+`;

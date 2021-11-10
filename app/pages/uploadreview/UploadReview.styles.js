@@ -1,11 +1,6 @@
-import styled from "styled-components/native";
-import {
-  BACKGROUND_COLOR,
-  PRIMARY_FONT,
-  SECONDARY_FONT,
-} from "../../constants";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import styled from 'styled-components/native';
+import { BACKGROUND_COLOR, PRIMARY_FONT, SECONDARY_FONT } from '../../constants';
+import { Button } from 'react-native-paper';
 
 export const MainContainer = styled.ScrollView`
   height: 100%;

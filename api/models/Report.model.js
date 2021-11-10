@@ -4,6 +4,10 @@ const UserModel = require('./User.model');
 
 
 const ReportSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
     user: {
         type: mongoose.Types.ObjectId,
         required: true,

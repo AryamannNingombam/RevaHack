@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { SafeArea } from "../../components/utility/safe-area.component";
 import { logout } from "../../app/auth.slice";
@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { Image, TouchableOpacity } from "react-native";
 import { IconButton, Colors } from "react-native-paper";
+import { useIsFocused } from "@react-navigation/core";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import IconOg from "react-native-vector-icons/FontAwesome";
@@ -32,7 +33,8 @@ import {
 import store from "../../app/store";
 
 export default function Profile() {
-  const userDetails = store.getState().auth.userData;
+  let userDetails = store.getState().auth.userData;
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleLogout = (e) => {
@@ -41,6 +43,13 @@ export default function Profile() {
     dispatch(logout());
     navigation.navigate("PreLogin");
   };
+
+  useEffect(() => {
+    userDetails = store.getState().auth.userData;
+    console.log("CHALA");
+    console.log(userDetails);
+    console.log(userDetails.name);
+  }, [isFocused]);
 
   return (
     <SafeArea>

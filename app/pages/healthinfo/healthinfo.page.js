@@ -41,17 +41,6 @@ export default function HealthInfoPage() {
     <SafeArea>
       <MainContainer>
         <HeadingSection>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-            <BackArrowWrapper>
-              <Icon
-                size={25}
-                color={"#575757"}
-                style={{ marginLeft: 8 }}
-                name="arrow-back-ios"
-              />
-            </BackArrowWrapper>
-          </TouchableOpacity>
-
           <MainHeading>Health Information</MainHeading>
         </HeadingSection>
         <FormSection>
