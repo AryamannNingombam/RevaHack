@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { BACKEND_URL } from "../../constants";
 import { GetAllReportsForUser } from "../../services/user.service";
-
+import { GetReportDetails } from "../../services/report.service";
 import {
   List,
   Modal,
@@ -71,6 +71,10 @@ export default function ReportPage() {
             return (
               <>
                 <List.Item
+                  onPress={async () => {
+                    const res = await GetReportDetails(data._id);
+                    console.log(res.data);
+                  }}
                   title={data.user}
                   description={data.date}
                   left={(props) => <List.Icon {...props} icon="file" />}

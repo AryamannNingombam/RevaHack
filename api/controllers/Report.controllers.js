@@ -175,6 +175,7 @@ exports.GetReport = async (req, res, next) => {
     user: req.user.userId,
   })
     .then(async (report) => {
+      console.log(report);
       if (!report)
         return res.status(500).json({
           success: false,
