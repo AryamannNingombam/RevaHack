@@ -59,6 +59,8 @@ export default function UploadPage() {
       await AddReport(formdata);
 
       setUploading(false);
+      setReport(null);
+      onChangeText('');
     }
   };
   const _pickDocument = async () => {

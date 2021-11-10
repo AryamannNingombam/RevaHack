@@ -76,6 +76,11 @@ const slice = createSlice({
       console.log('LOGGGGOUT');
       console.log(state);
     },
+    refresh: (state, action) => {
+      state.userData = action.payload.userData;
+      state.token = action.payload.token;
+      console.log(state);
+    },
   },
   extraReducers: {
     [LoginThunk.fulfilled]: (state, action) => {
@@ -101,4 +106,4 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { logout } = slice.actions;
+export const { logout, refresh } = slice.actions;
