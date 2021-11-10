@@ -2,11 +2,11 @@ import store from "../app/store";
 import axios from "axios";
 import { BACKEND_URL } from "../constants";
 
-export const AddReport = (body) => {
+export const AddReport = async (body) => {
   const { token } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
 
-  return axios.post(`${BACKEND_URL}/api/report/add-report`, body, {
+  return await axios.post(`${BACKEND_URL}/api/report/add-report`, body, {
     headers: {
       token,
     },
@@ -47,16 +47,19 @@ export const GetAllUsersForReport = (_id) => {
   );
 };
 
-export const GiveReportAccessToUser = (body) => {
+export const GiveReportAccessToUser = async (body) => {
   const { token } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
-  return axios.put(
-    `${BACKEND_URL}/api/report/give-report-access-to-user`,
-    body,
-    {
+  await axios
+    .put(`${BACKEND_URL}/api/report/give-report-access-to-user`, body, {
       headers: {
         token,
       },
-    }
-  );
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };
