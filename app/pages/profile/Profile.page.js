@@ -29,8 +29,10 @@ import {
   Divider,
   ServiceText,
 } from './Profile.styles';
+import store from '../../app/store';
 
 export default function Profile() {
+  const userDetails = store.getState().auth.userData;
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleLogout = (e) => {
@@ -55,7 +57,7 @@ export default function Profile() {
         </BtnContainer>
         <UserDetailContainer>
           <UserImage source={{ uri: 'https://source.unsplash.com/random/160x160' }} />
-          <UserNameText>Sitaraman</UserNameText>
+          <UserNameText>{userDetails.name}</UserNameText>
           <UserSubtitleText>User</UserSubtitleText>
         </UserDetailContainer>
         <AboutContainer>

@@ -1,6 +1,7 @@
 const ReportModel = require("../models/Report.model");
 const UserModel = require("../models/User.model");
 const crypto = require("crypto");
+const ipfs = require('ipfs-http-client');
 const client = ipfs.create("https://ipfs.infura.io:5001/api/v0");
 
 exports.AddReport = async (req, res, next) => {
@@ -36,7 +37,7 @@ exports.AddReport = async (req, res, next) => {
             date: new Date(Date.now()),
         };
         ReportModel.create(reportBody)
-            .then((r) => {
+            .then(async (r) => {
                 await UserModel.findByIdAndUpdate(user._id, {
                     $push: {
                         reports: r._id,
@@ -68,6 +69,41 @@ exports.AddReport = async (req, res, next) => {
 }
 
 
+exports.GiveReportAccessToUser = async (req, res, next) => {
+    const {
+        reportId,
+        userId
+    } = req.body;
+    if (!reportId || !userId) {
+        return res.status(500)
+            .json({
+                success: false,
+                message: "Required values not provided!"
+            })
+    }
+    const report = await ReportModel.findOne({
+        _id: reportId,
+        user: req.user.userData
+    })
+    return report.AddUser(userId)
+        .then(() => {
+            return res.status(200)
+                .json({
+                    success: true,
+                })
+        })
+        .catch(err => {
+            console.log("error");
+            console.log(err);
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "Unknown server error"
+                })
+        })
+}
+
+
 exports.GetAllUsersForReport = (req, res, next) => {
     const {
         _id
@@ -81,17 +117,17 @@ exports.GetAllUsersForReport = (req, res, next) => {
             _id
         })
         .then(async report => {
-            const doctorDetails = []
-            for (let doctor of report.access) {
-                const doctorDetail = await DoctorModel.findById({
-                    _id: doctor
+            const userDetails = []
+            for (let user of report.access) {
+                const userDetail = await UserModel.findById({
+                    _id: user
                 })
-                doctorDetails.push(doctorDetail)
+                userDetails.push(userDetail)
             }
             return res.status(200)
                 .json({
                     success: true,
-                    doctorDetails
+                    userDetails
                 })
         })
         .catch(err => {
@@ -106,7 +142,7 @@ exports.GetAllUsersForReport = (req, res, next) => {
 }
 
 
-exports.DeleteReport = (req, res, next) => {
+exports.DeleteReport = async(req, res, next) => {
     const {
         _id
     } = req.body;
@@ -152,9 +188,9 @@ exports.GetReport = async (req, res, next) => {
     })
     return ReportModel.findOne({
             _id,
-            user: res.locals.userId
+            user: req.user.userId
         })
-        .then(report => {
+        .then(async report => {
             if (!report)
                 return res.status(500).json({
                     success: false,

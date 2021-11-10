@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { SignInClient, SignUpClient } from '../services/client.service';
+import { SignInUser, SignUpUser } from '../services/user.service';
 
 export const SignUpThunk = createAsyncThunk(
   'auth/signup-user',
   async (body, { rejectWithValue }) => {
-    return SignUpClient(body)
+    return SignUpUser(body)
       .then((response) => response.data)
       .catch((error) => {
         console.log('error');
@@ -17,7 +17,8 @@ export const SignUpThunk = createAsyncThunk(
 export const LoginThunk = createAsyncThunk(
   '/auth/login-user',
   async (body, { rejectWithValue }) => {
-    return SignInClient(body)
+    console.log(body);
+    return SignInUser(body)
       .then((response) => response.data)
       .catch((error) => {
         console.log('error');

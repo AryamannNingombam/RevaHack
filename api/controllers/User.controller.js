@@ -1,5 +1,5 @@
 const UserModel = require("../models/User.model");
-
+const jwt = require('jsonwebtoken')
 
 
 exports.GetAllAccessedReportsForUser = (req, res, next) => {
@@ -135,6 +135,7 @@ exports.SignUp = async (
 
 
 exports.SignIn = (req, res, next) => {
+    console.log('called')
     const {
         email,
         password
@@ -164,10 +165,7 @@ exports.SignIn = (req, res, next) => {
                 if (!HASH) {
                     throw new Error('Hash not provided!')
                 }
-                const userData = {
-                    email: user.email,
-                    password: user.password
-                }
+                const userData = user
                 const token = jwt.sign({
                     userData
                 }, HASH, {
@@ -206,17 +204,14 @@ exports.CheckedSignedIn = (req, res, next) => {
 
 
 exports.UpdateUserDetails = (req, res, next) => {
-    const {
-        _id,
-        newDetails
-    } = req.body;
-    if (!_id || !newDetails) return res.status(500)
+    const newDetails = req.body;
+    if (!req.user.userId || !newDetails) return res.status(500)
         .json({
             success: false,
             message: "Required values not provided!"
         })
     return UserModel.findOneAndUpdate({
-            _id
+            _id: req.user.userId
         }, newDetails, {
             new: true
         })

@@ -55,7 +55,8 @@ app.use(express.urlencoded({
     extended: true
 }))
 app.use(express.json())
-
+app.use('/api/report',require('./routes/Report.routes'));
+app.use('/api/user',require('./routes/User.routes'));
 
 app.get('/welcome', (req, res, next) => {
     return res.status(200).json({

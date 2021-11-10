@@ -1,6 +1,5 @@
 //date,user,id,doctorid,file || url
 const mongoose = require('mongoose')
-const DoctorModel = require('./Doctor.model');
 const UserModel = require('./User.model');
 
 
