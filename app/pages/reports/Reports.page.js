@@ -23,7 +23,7 @@ import { AccessButtonContainer, HeaderText, SingleReport } from './Reports.style
 export default function ReportPage() {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-  const [showOwn,setShowOwn] = useState(true);
+  const [showOwn, setShowOwn] = useState(true);
   const [visible, setVisible] = useState(false);
   const [currentRep, setCurrentRep] = useState(null);
   const [email, setEmail] = useState('');
@@ -53,31 +53,30 @@ export default function ReportPage() {
 
   const getReports = async () => {
     console.log('get reports');
-    if (showOwn){
+    if (showOwn) {
       await GetAllReportsForUser()
-      .then((res) => {
-        setReports(res.data['reports']);
-        setToggle(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }else{
+        .then((res) => {
+          setReports(res.data['reports']);
+          setToggle(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
       await GetAllAccessedReportsForUser()
-      .then(res=>res.data)
-      .then(data=>{
-        setReports(data.reports);
-        setToggle(true)
-      })
-      .catch(err=>console.log(err))
+        .then((res) => res.data)
+        .then((data) => {
+          setReports(data.reports);
+          setToggle(true);
+        })
+        .catch((err) => console.log(err));
     }
-    
   };
 
-  const OnSharedReportsButtonPress = async()=>{
-    setShowOwn(!showOwn)
+  const OnSharedReportsButtonPress = async () => {
+    setShowOwn(!showOwn);
     await getReports();
-  }
+  };
 
   useEffect(() => {
     getReports();
@@ -109,15 +108,22 @@ export default function ReportPage() {
           </Modal>
         </Portal>
         <MainContainer>
-          <HeaderText>{showOwn ? "Your Reports":"Shared Reports"}</HeaderText>
+          <HeaderText>{showOwn ? 'Your Reports' : 'Shared Reports'}</HeaderText>
           <AccessButtonContainer>
-          <Button
-          mode="contained"
-          onPress={OnSharedReportsButtonPress}
-          style={{backgroundColor:'black',color:"white",borderRadius:"20px",width:"50%"}}
-          >{showOwn ? "Show Shared":"Show Own"}</Button>
-            </AccessButtonContainer>
-          
+            <Button
+              mode="contained"
+              onPress={OnSharedReportsButtonPress}
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+                borderRadius: 20,
+                width: '50%',
+              }}
+            >
+              {showOwn ? 'Show Shared' : 'Show Own'}
+            </Button>
+          </AccessButtonContainer>
+
           {toggle ? (
             <>
               {reports.length > 0 &&
@@ -137,14 +143,15 @@ export default function ReportPage() {
                           description={new Date(data.date).toDateString()}
                           left={(props) => <List.Icon {...props} icon="file" />}
                           right={(props) => {
-                            return (
-                              showOwn ? <Button
+                            return showOwn ? (
+                              <Button
                                 labelStyle={{ color: Colors.blue300 }}
                                 {...props}
-                                onPress={() => showModal(data._id)}>
+                                onPress={() => showModal(data._id)}
+                              >
                                 Share
-                              </Button> : null
-                            );
+                              </Button>
+                            ) : null;
                           }}
                         />
                       </SingleReport>
