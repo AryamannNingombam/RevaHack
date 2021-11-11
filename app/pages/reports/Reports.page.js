@@ -51,19 +51,20 @@ export default function ReportPage() {
       });
   };
 
-  const getReports = async () => {
+  const getReports =  () => {
     console.log('get reports');
     if (showOwn) {
-      await GetAllReportsForUser()
+     GetAllReportsForUser()
         .then((res) => {
-          setReports(res.data['reports']);
+          console.log(res.data['reports'])
+          setReports(res.data['reports']? res.data['reports'] : []);
           setToggle(true);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      await GetAllAccessedReportsForUser()
+       GetAllAccessedReportsForUser()
         .then((res) => res.data)
         .then((data) => {
           setReports(data.reports);

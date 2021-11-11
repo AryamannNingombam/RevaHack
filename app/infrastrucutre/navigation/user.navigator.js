@@ -5,6 +5,7 @@ import { AppNavigator } from './app.navigation';
 import HealthInfoPage from '../../pages/healthinfo/healthinfo.page';
 import ViewReportPage from '../../pages/viewreport/ViewReport.page';
 import SharedReportsPage from '../../pages/sharedreports/SharedReports.page';
+import SettingsPage from '../../pages/settings/Settings.page';
 const Stack = createStackNavigator();
 
 export const UserNavigator = () => (
@@ -12,6 +13,7 @@ export const UserNavigator = () => (
     <Stack.Screen name="AppNav" component={AppNavigator} />
     <Stack.Screen name="HealthInfo" component={HealthInfoPage} />
     <Stack.Screen name="SharedReports" component={SharedReportsPage} />
+    <Stack.Screen name="Settings" component={SettingsPage} />
 
     <Stack.Screen name="EditProfile" component={EditProfilePage} />
     <Stack.Screen name="ViewReport" component={ViewReportPage} />

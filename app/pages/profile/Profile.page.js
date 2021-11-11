@@ -96,13 +96,17 @@ export default function Profile() {
         </ServiceContainer>
           </TouchableOpacity>
         
-
+          <TouchableOpacity
+        onPress={()=>{
+          navigation.navigate('Settings');
+        }}
+        >
         <ServiceContainer>
           <IconOg name={'gear'} size={24}></IconOg>
           <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Settings</ServiceText>
           <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
         </ServiceContainer>
-
+</TouchableOpacity>
         <HelpContainer>
           <Image source={require('../../assets/help.png')} />
           <HelpText>How can we help you ?</HelpText>

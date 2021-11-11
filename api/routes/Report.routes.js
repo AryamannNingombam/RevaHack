@@ -13,6 +13,7 @@ const {
   ChangeReportName,
   GetReportOfOtherUser,
   MakeReportPrivate,
+  DeleteAllReportsForUser
 } = require("../controllers/Report.controllers");
 const CheckJWT = require("../middleware/jwt.middleware");
 
@@ -23,6 +24,8 @@ router.get("/get-all-users-for-report/:_id", CheckJWT, GetAllUsersForReport);
 
 router.get("/get-report-of-other-user/_id", CheckJWT, GetReportOfOtherUser);
 router.post("/delete-report", CheckJWT, DeleteReport);
+
+router.post('/delete-all-reports-for-user',CheckJWT,DeleteAllReportsForUser)
 
 router.put('/make-report-private',CheckJWT,MakeReportPrivate)
 

@@ -110,6 +110,45 @@ exports.AddReport = async (req, res, next) => {
 };
 
 
+exports.DeleteAllReportsForUser = async (req, res, next) => {
+  UserModel.findOne({
+      email: res.locals.email
+    })
+    .then(async user => {
+      for (let report of user.reports) {
+        const r = await ReportModel.findById(report);
+        try {
+          await r.DeleteReportData()
+          await r.delete();
+
+        } catch (err) {
+          console.log(err);
+          return res.status(500)
+            .json({
+              success: false,
+              message: "Error deleting report!"
+            })
+        }
+
+
+      }
+      return res.status(200)
+        .json({
+          success: true,
+        })
+    })
+    .catch(err => {
+      console.log('error');
+      console.log(err);
+      return res.status(500)
+        .json({
+          success: false,
+          message: "Unknown server error!"
+        })
+    })
+}
+
+
 exports.MakeReportPrivate = async (req, res, next) => {
   const {
     _id

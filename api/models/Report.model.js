@@ -80,13 +80,14 @@ ReportSchema.methods.MakePrivate = async function () {
 
 ReportSchema.methods.DeleteReportData = async function () {
   const report = this;
-  const users = report.users;
+  const users = report.access;
   for (let user of users) {
-    const u = await UserModel.findById({
+    await UserModel.findByIdAndUpdate({
       _id: user,
+    }, {
+      reports: []
     });
-    if (!u) throw new Error("User not found!");
-    await u.DeleteReport(report._id);
+    
   }
   return;
 };

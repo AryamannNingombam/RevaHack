@@ -29,6 +29,18 @@ export const GetSharedReportsByUser = () => {
   })
 }
 
+export const DeleteAllReportsForUser = () => {
+  const {
+    token
+  } = store.getState().auth;
+  if (!token) throw new Error("Token not found!");
+  return axios.post(`${BACKEND_URL}/api/report/delete-all-reports-for-user`, {}, {
+    headers: {
+      token
+    }
+  })
+}
+
 export const MakeReportPrivate = (body) => {
   const {
     token
