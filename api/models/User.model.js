@@ -7,12 +7,12 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   age: {
-    type: Number,
-    required: true,
-    min: 0,
+    type: String,
+    required: false,
+    default: "0",
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
   },
   email: {
@@ -43,10 +43,9 @@ const UserSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: true,
-    enum: ["MALE", "FEMALE", "OTHER"],
   },
   height: {
-    type: Number,
+    type: String,
     required: true,
   },
   weight: {
@@ -55,7 +54,8 @@ const UserSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
+    default: "",
+    required: false,
   },
 });
 

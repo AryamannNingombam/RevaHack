@@ -18,9 +18,9 @@ import { SafeArea } from "../../components/utility/safe-area.component";
 import { TouchableOpacity, View } from "react-native";
 
 export default function RegisterPage({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState(null);
+  const [email, setEmail] = useState("");
 
   return (
     <SafeArea>
@@ -30,13 +30,13 @@ export default function RegisterPage({ navigation }) {
           <SubHeading>Welcome to Mrex</SubHeading>
         </TextSection>
         <MainTextInput
-          // onChangeText={setEmail}
+          onChangeText={setName}
           placeholder="Name"
           placeholderTextColor={"#858585"}
           autoCapitalize="none"
         />
         <MainTextInput
-          // onChangeText={setEmail}
+          onChangeText={setEmail}
           placeholder="Email"
           placeholderTextColor={"#858585"}
           autoCapitalize="none"
@@ -47,29 +47,18 @@ export default function RegisterPage({ navigation }) {
           placeholderTextColor={"#858585"}
           secureTextEntry={true}
         />
-        <View style={{ display: "flex", flexDirection: "row" }}>
-          <RadioSelect
-            label="I'am a Doctor"
-            value="first"
-            color="#1d1d1d"
-            status={userType === "doctor" ? "checked" : "unchecked"}
-            labelStyle={{ fontFamily: "BasisGrotesqueProBold" }}
-            onPress={() => setUserType("doctor")}
-          />
-          <RadioSelect
-            label="I'am a Patient"
-            value="second"
-            status={userType === "patient" ? "checked" : "unchecked"}
-            color="#1d1d1d"
-            labelStyle={{ fontFamily: "BasisGrotesqueProBold" }}
-            onPress={() => setUserType("patient")}
-          />
-        </View>
         <StartedButton
           color="white"
           uppercase={false}
           labelStyle={{ fontSize: 20, fontFamily: "BasisGrotesqueProBold" }}
-          onPress={() => navigation.navigate("BasicInfo")}
+          onPress={() => {
+            console.log(name, email, password);
+            navigation.navigate("BasicInfo", {
+              name,
+              email,
+              password,
+            });
+          }}
         >
           Register
         </StartedButton>
