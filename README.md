@@ -30,7 +30,7 @@ Users will also have the option to share reports with other users who will get a
   - Redux Toolkit
   ### BACKEND
   - Node.js
-  - MonggoDB
+  - MongoDB
   - **_IPFS_**
 
 ### **_Our team members include:_**
