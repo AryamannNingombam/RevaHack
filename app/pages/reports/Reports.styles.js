@@ -8,7 +8,6 @@ import {
 } from '../../constants';
 
 export const MainContainer = styled.ScrollView`
-  // height: 100%;
   width: 100%;
   padding: 24px 0;
 
