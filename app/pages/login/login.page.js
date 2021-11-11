@@ -17,7 +17,7 @@ import { LoginThunk } from '../../app/auth.slice';
 import { TouchableOpacity } from 'react-native';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { VerticalCenter } from '../viewreport/ViewReport.styles';
-import { ActivityIndicator, Colors, Text } from 'react-native-paper';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import { HeaderText } from '../reports/Reports.styles';
 
 export default function LoginPage({ navigation }) {
@@ -30,10 +30,7 @@ export default function LoginPage({ navigation }) {
     setSubmitted(true);
     store
       .dispatch(LoginThunk({ email, password }))
-      .then((response) => {
-        console.log(response);
-        console.log(store.getState());
-      })
+      .then(() => {})
       .catch((err) => {
         console.log('error');
         console.log(err);

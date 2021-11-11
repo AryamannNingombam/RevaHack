@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   BackArrowWrapper,
   HeadingSection,
@@ -7,18 +7,18 @@ import {
   FormSection,
   TextContainer,
   SaveButtonSection,
-} from "./healthinfo.styles";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { TextInput, Button } from "react-native-paper";
-import { SafeArea } from "../../components/utility/safe-area.component";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import store from "../../app/store";
-import { PRIMARY_FONT } from "../../constants";
-import { useNavigation } from "@react-navigation/core";
-import { UpdateUserDetails } from "../../services/user.service";
+} from './healthinfo.styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TextInput, Button } from 'react-native-paper';
+import { SafeArea } from '../../components/utility/safe-area.component';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import store from '../../app/store';
+import { GetUserDetailsThunk } from '../../app/auth.slice';
+import { PRIMARY_FONT } from '../../constants';
+import { useNavigation } from '@react-navigation/core';
+import { UpdateUserDetails } from '../../services/user.service';
 export default function HealthInfoPage() {
   const userDetails = store.getState().auth.userData;
-  console.log(userDetails);
   const navigation = useNavigation();
   const [age, setAge] = useState(userDetails.age.toString());
   const [height, setHeight] = useState(userDetails.height.toString());
@@ -28,11 +28,13 @@ export default function HealthInfoPage() {
   const OnSaveButtonClick = () => {
     UpdateUserDetails({ age, height, weight, gender })
       .then((response) => response.data)
-      .then((data) => {
-        console.log(data);
+      .then(async () => {
+        await store.dispatch(GetUserDetailsThunk()).then((res) => {
+          navigation.navigate('Profile');
+        });
       })
       .catch((err) => {
-        console.log("error");
+        console.log('error');
         console.log(err);
       });
   };
@@ -50,12 +52,12 @@ export default function HealthInfoPage() {
               onChangeText={(e) => {
                 setAge(e);
               }}
-              selectionColor={"#3DBBF1"}
-              activeUnderlineColor={"#3DBBF1"}
+              selectionColor={'#3DBBF1'}
+              activeUnderlineColor={'#3DBBF1'}
               style={{
-                borderRadius: "5px",
-                backgroundColor: "white",
-                color: "#3DBBF1",
+                borderRadius: 5,
+                backgroundColor: 'white',
+                color: '#3DBBF1',
               }}
               label="Age"
             />
@@ -66,12 +68,12 @@ export default function HealthInfoPage() {
               onChangeText={(e) => {
                 setHeight(e);
               }}
-              selectionColor={"#3DBBF1"}
-              activeUnderlineColor={"#3DBBF1"}
+              selectionColor={'#3DBBF1'}
+              activeUnderlineColor={'#3DBBF1'}
               style={{
-                borderRadius: "5px",
-                backgroundColor: "white",
-                color: "#3DBBF1",
+                borderRadius: 5,
+                backgroundColor: 'white',
+                color: '#3DBBF1',
               }}
               label="Height(in)."
             />
@@ -82,12 +84,12 @@ export default function HealthInfoPage() {
               onChangeText={(e) => {
                 setWeight(e);
               }}
-              selectionColor={"#3DBBF1"}
-              activeUnderlineColor={"#3DBBF1"}
+              selectionColor={'#3DBBF1'}
+              activeUnderlineColor={'#3DBBF1'}
               style={{
-                borderRadius: "5px",
-                backgroundColor: "white",
-                color: "#3DBBF1",
+                borderRadius: 5,
+                backgroundColor: 'white',
+                color: '#3DBBF1',
               }}
               label="Weight(kg)"
             />
@@ -98,12 +100,12 @@ export default function HealthInfoPage() {
               onChangeText={(e) => {
                 setGender(e);
               }}
-              selectionColor={"#3DBBF1"}
-              activeUnderlineColor={"#3DBBF1"}
+              selectionColor={'#3DBBF1'}
+              activeUnderlineColor={'#3DBBF1'}
               style={{
-                borderRadius: "5px",
-                backgroundColor: "white",
-                color: "#3DBBF1",
+                borderRadius: 5,
+                backgroundColor: 'white',
+                color: '#3DBBF1',
               }}
               label="Gender"
             />
@@ -111,9 +113,9 @@ export default function HealthInfoPage() {
           <SaveButtonSection>
             <Button
               style={{
-                borderRadius: "30px",
-                backgroundColor: "black",
-                color: "white",
+                borderRadius: 30,
+                backgroundColor: 'black',
+                color: 'white',
                 fontFamily: `${PRIMARY_FONT}`,
               }}
               mode="contained"

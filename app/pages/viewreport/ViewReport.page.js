@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { Image } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { GetReportDetails } from '../../services/report.service';
-import { ImgContainer, MainContainer, VerticalCenter } from './ViewReport.styles';
+import { ButtonsContainer, ImgContainer, MainContainer, VerticalCenter } from './ViewReport.styles';
 import { ActivityIndicator, Colors } from 'react-native-paper';
+import { HeaderText } from '../uploadpage/UploadPage.styles';
+import { UserSubtitleText } from '../profile/Profile.styles';
 
 export default function ViewReportPage(props) {
-  const id = props.route.params.id;
+  const { id, name, date } = props.route.params;
   const [baseImg, setBaseImg] = React.useState('');
   const [loaded, setLoaded] = React.useState(false);
   useEffect(async () => {
@@ -21,6 +23,10 @@ export default function ViewReportPage(props) {
   return (
     <SafeArea>
       <MainContainer>
+        <HeaderText style={{ color: '#000' }}>{name}</HeaderText>
+        <UserSubtitleText style={{ marginLeft: 18, marginTop: 8 }}>
+          {new Date(date).toDateString()}
+        </UserSubtitleText>
         <ImgContainer>
           {loaded ? (
             <Image
@@ -29,6 +35,7 @@ export default function ViewReportPage(props) {
                 height: '100%',
                 minHeight: 200,
                 padding: 20,
+                paddingTop: 0,
                 resizeMode: 'contain',
                 borderRadius: 10,
               }}
@@ -43,7 +50,35 @@ export default function ViewReportPage(props) {
             </VerticalCenter>
           )}
         </ImgContainer>
-        <Text>HIHIHI THIS IS REPORT</Text>
+
+        <ButtonsContainer>
+          <Button
+            mode="contained"
+            color={Colors.blue400}
+            labelStyle={{ color: '#FFF' }}
+            icon="download"
+          >
+            Download
+          </Button>
+          <Button
+            mode="contained"
+            style={{ marginTop: 20 }}
+            color={Colors.blue400}
+            icon="share"
+            labelStyle={{ color: '#FFF' }}
+          >
+            Share
+          </Button>
+          <Button
+            mode="contained"
+            style={{ marginTop: 20 }}
+            color={Colors.red600}
+            icon="delete"
+            labelStyle={{ color: '#FFF' }}
+          >
+            Delete
+          </Button>
+        </ButtonsContainer>
       </MainContainer>
     </SafeArea>
   );

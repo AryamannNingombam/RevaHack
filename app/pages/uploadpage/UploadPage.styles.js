@@ -14,8 +14,8 @@ export const MainContainer = styled.ScrollView`
 `;
 
 export const HeaderText = styled.Text`
-  margin: 48px 16px;
-  margin-bottom: 0;
+  margin: 24px 16px;
+  margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};
   font-size: 28px;

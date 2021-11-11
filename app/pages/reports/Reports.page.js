@@ -19,7 +19,7 @@ import {
 
 import { MainContainer } from '../profile/Profile.styles';
 import { VerticalCenter } from '../viewreport/ViewReport.styles';
-import { HeaderText } from './Reports.styles';
+import { HeaderText, SingleReport } from './Reports.styles';
 
 export default function ReportPage() {
   const isFocused = useIsFocused();
@@ -42,13 +42,11 @@ export default function ReportPage() {
       email: email,
       reportId: currentRep,
     });
-    console.log(res);
   };
 
   const getReports = async () => {
     await GetAllReportsForUser()
       .then((res) => {
-        console.log(res.data['reports']);
         setReports(res.data['reports']);
       })
       .catch((err) => {
@@ -88,28 +86,34 @@ export default function ReportPage() {
               {reports.map((data, idx) => {
                 return (
                   <React.Fragment key={idx}>
-                    <List.Item
-                      onPress={() => {
-                        navigation.navigate('ViewReport', { id: data._id });
-                      }}
-                      title={data.name ? data.name : 'Report ' + (idx + 1)}
-                      description={Date(data.date)}
-                      left={(props) => <List.Icon {...props} icon="file" />}
-                      right={(props) => {
-                        return (
-                          <Button {...props} onPress={() => showModal(data._id)}>
-                            Share
-                          </Button>
-                        );
-                      }}
-                    />
+                    <SingleReport>
+                      <List.Item
+                        onPress={() => {
+                          navigation.navigate('ViewReport', {
+                            id: data._id,
+                            name: data.name,
+                            date: data.date,
+                          });
+                        }}
+                        title={data.name ? data.name : 'Report ' + (idx + 1)}
+                        description={new Date(data.date).toDateString()}
+                        left={(props) => <List.Icon {...props} icon="file" />}
+                        right={(props) => {
+                          return (
+                            <Button {...props} onPress={() => showModal(data._id)}>
+                              Share
+                            </Button>
+                          );
+                        }}
+                      />
+                    </SingleReport>
                   </React.Fragment>
                 );
               })}
             </>
           ) : (
             <>
-              <VerticalCenter>
+              <VerticalCenter style={{ marginTop: 40 }}>
                 <ActivityIndicator animating={true} color={Colors.blue200} size={40} />
                 <Text style={{ textAlign: 'center', padding: 24 }}>
                   We're getting your report, Hang on!

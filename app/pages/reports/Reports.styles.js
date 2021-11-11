@@ -1,21 +1,23 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 import {
   BACKGROUND_COLOR,
   BACKGROUND_WHITE_COLOR,
   PRIMARY_FONT,
   SECONDARY_FONT,
-} from "../../constants";
+} from '../../constants';
 
 export const MainContainer = styled.ScrollView`
-  height: 100%;
+  // height: 100%;
   width: 100%;
+  padding: 24px 0;
+
   background-color: ${BACKGROUND_WHITE_COLOR};
 `;
 
 export const HeaderText = styled.Text`
-  margin: 48px 16px;
-  margin-bottom: 0;
+  margin: 24px 16px;
+  margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};
   font-size: 28px;
@@ -50,4 +52,12 @@ export const UploadContainer = styled.View`
   margin: 32px 0;
   justify-content: center;
   align-items: center;
+`;
+
+export const SingleReport = styled.View`
+  background-color: #fff;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  margin: 12px;
+  border-radius: 20px;
+  justify-content: center;
 `;
