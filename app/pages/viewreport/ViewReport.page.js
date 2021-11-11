@@ -3,10 +3,10 @@ import { Image } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { GetReportDetails } from '../../services/report.service';
-import { ButtonsContainer, ImgContainer, MainContainer, VerticalCenter } from './ViewReport.styles';
+import { ButtonsContainer, ImgContainer, MainContainer, VerticalCenter,MainHeading,DateText } from './ViewReport.styles';
 import { ActivityIndicator, Colors } from 'react-native-paper';
-import { HeaderText } from '../uploadpage/UploadPage.styles';
-import { UserSubtitleText } from '../profile/Profile.styles';
+
+
 
 export default function ViewReportPage(props) {
   const { id, name, date } = props.route.params;
@@ -23,10 +23,10 @@ export default function ViewReportPage(props) {
   return (
     <SafeArea>
       <MainContainer>
-        <HeaderText style={{ color: '#000' }}>{name}</HeaderText>
-        <UserSubtitleText style={{ marginLeft: 18, marginTop: 8 }}>
+        <MainHeading style={{ color: '#000' }}>{name}</MainHeading>
+        <DateText style={{ marginLeft: 18, marginTop: 8 }}>
           {new Date(date).toDateString()}
-        </UserSubtitleText>
+        </DateText>
         <ImgContainer>
           {loaded ? (
             <Image

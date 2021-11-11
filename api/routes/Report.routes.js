@@ -27,4 +27,6 @@ router.get("/get-report/:_id", CheckJWT, GetReport);
 
 router.put("/give-report-access-to-user", CheckJWT, GiveReportAccessToUser);
 
+router.put("/change-report-name", CheckJWT, ChangeReportName);
+
 module.exports = router;

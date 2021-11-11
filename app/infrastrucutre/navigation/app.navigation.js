@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 // import PreLoginScreen from "../../pages/PreLogin/prelogin.page";
 import UploadPage from '../../pages/uploadpage/UploadPage.page';
 import ReportPage from '../../pages/reports/Reports.page';
-import SharedReportsPage from '../../pages/sharedreports/SharedReports.page';
+import HomePage from '../../pages/home/Home.page';
 
 // const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,11 +26,11 @@ export const AppNavigator = () => (
       }}
     /> */}
     <Tab.Screen
-      name="Reports"
-      component={ReportPage}
+      name="Home"
+      component={HomePage}
       options={{
-        tabBarLabel: 'Reports',
-        tabBarIcon: ({ color, size }) => <Icon name="file" color={color} size={size} />,
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ color, size }) => <Icon name="home" color={color} size={size} />,
       }}
     />
 
@@ -43,11 +43,11 @@ export const AppNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Shared"
-      component={SharedReportsPage}
+      name="Reports"
+      component={ReportPage}
       options={{
-        tabBarLabel: 'Shared',
-        tabBarIcon: ({ color, size }) => <Icon name="globe" color={color} size={size} />,
+        tabBarLabel: 'Reports',
+        tabBarIcon: ({ color, size }) => <Icon name="file" color={color} size={size} />,
       }}
     />
 

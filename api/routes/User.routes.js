@@ -8,6 +8,7 @@ const {
   CheckedSignedIn,
   UpdateUserDetails,
   GetUserDetails,
+  GetSharedReportsByUser,
 } = require("../controllers/User.controller");
 const CheckJWT = require("../middleware/jwt.middleware");
 
@@ -28,6 +29,8 @@ router.post("/sign-up", SignUp);
 router.post("/sign-in", SignIn);
 
 router.get("/check-signed-in", CheckJWT, CheckedSignedIn);
+
+router.get('/get-shared-reports-by-user',CheckJWT,GetSharedReportsByUser)
 
 router.put("/update-user-details", CheckJWT, UpdateUserDetails);
 

@@ -15,18 +15,25 @@ export const MainContainer = styled.ScrollView`
   background-color: ${BACKGROUND_WHITE_COLOR};
 `;
 
+export const AccessButtonContainer = styled.View`
+margin:10px 0;
+display:flex;
+align-items:center;
+justify-content:center;
+width:100%;
+`
+
 export const HeaderText = styled.Text`
   margin: 24px 16px;
   margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};
-  font-size: 28px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 700;
   line-height: 33px;
   letter-spacing: 0;
-  text-align: left;
-`;
+  text-align:center`;
 
 export const FormView = styled.View`
   width: 100%;

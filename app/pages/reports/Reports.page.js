@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeArea } from '../../components/utility/safe-area.component';
-import { GetAllReportsForUser } from '../../services/user.service';
+import { GetAllAccessedReportsForUser, GetAllReportsForUser } from '../../services/user.service';
 import { GiveReportAccessToUser } from '../../services/report.service';
 import {
   List,
@@ -18,12 +18,12 @@ import {
 
 import { MainContainer } from '../profile/Profile.styles';
 import { VerticalCenter } from '../viewreport/ViewReport.styles';
-import { HeaderText, SingleReport } from './Reports.styles';
+import { AccessButtonContainer, HeaderText, SingleReport } from './Reports.styles';
 
 export default function ReportPage() {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
+  const [showOwn,setShowOwn] = useState(true);
   const [visible, setVisible] = useState(false);
   const [currentRep, setCurrentRep] = useState(null);
   const [email, setEmail] = useState('');
@@ -53,7 +53,8 @@ export default function ReportPage() {
 
   const getReports = async () => {
     console.log('get reports');
-    await GetAllReportsForUser()
+    if (showOwn){
+      await GetAllReportsForUser()
       .then((res) => {
         setReports(res.data['reports']);
         setToggle(true);
@@ -61,7 +62,22 @@ export default function ReportPage() {
       .catch((err) => {
         console.log(err);
       });
+    }else{
+      await GetAllAccessedReportsForUser()
+      .then(res=>res.data)
+      .then(data=>{
+        setReports(data.reports);
+        setToggle(true)
+      })
+      .catch(err=>console.log(err))
+    }
+    
   };
+
+  const OnSharedReportsButtonPress = async()=>{
+    setShowOwn(!showOwn)
+    await getReports();
+  }
 
   useEffect(() => {
     getReports();
@@ -93,8 +109,15 @@ export default function ReportPage() {
           </Modal>
         </Portal>
         <MainContainer>
-          <HeaderText>Your Reports</HeaderText>
-
+          <HeaderText>{showOwn ? "Your Reports":"Shared Reports"}</HeaderText>
+          <AccessButtonContainer>
+          <Button
+          mode="contained"
+          onPress={OnSharedReportsButtonPress}
+          style={{backgroundColor:'black',color:"white",borderRadius:"20px",width:"50%"}}
+          >{showOwn ? "Show Shared":"Show Own"}</Button>
+            </AccessButtonContainer>
+          
           {toggle ? (
             <>
               {reports.length > 0 &&
@@ -115,13 +138,12 @@ export default function ReportPage() {
                           left={(props) => <List.Icon {...props} icon="file" />}
                           right={(props) => {
                             return (
-                              <Button
+                              showOwn ? <Button
                                 labelStyle={{ color: Colors.blue300 }}
                                 {...props}
-                                onPress={() => showModal(data._id)}
-                              >
+                                onPress={() => showModal(data._id)}>
                                 Share
-                              </Button>
+                              </Button> : null
                             );
                           }}
                         />

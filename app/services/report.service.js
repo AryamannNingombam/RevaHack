@@ -1,9 +1,13 @@
 import store from "../app/store";
 import axios from "axios";
-import { BACKEND_URL } from "../constants";
+import {
+  BACKEND_URL
+} from "../constants";
 
 export const AddReport = async (body) => {
-  const { token } = store.getState().auth;
+  const {
+    token
+  } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
 
   return await axios.post(`${BACKEND_URL}/api/report/add-report`, body, {
@@ -13,8 +17,22 @@ export const AddReport = async (body) => {
   });
 };
 
+export const GetSharedReportsByUser = () => {
+  const {
+    token
+  } = store.getState().auth;
+  if (!token) throw new Error("Token not found!");
+  return axios.get(`${BACKEND_URL}/api/user/get-shared-reports-by-user`, {
+    headers: {
+      token
+    }
+  })
+}
+
 export const DeleteReport = (body) => {
-  const { token } = store.getState().auth;
+  const {
+    token
+  } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
   return axios.post(`${BACKEND_URL}/api/report/delete-report`, body, {
     headers: {
@@ -24,7 +42,9 @@ export const DeleteReport = (body) => {
 };
 
 export const GetReportDetails = async (_id) => {
-  const { token } = store.getState().auth;
+  const {
+    token
+  } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
   return await axios.get(`${BACKEND_URL}/api/report/get-report/${_id}`, {
     headers: {
@@ -33,13 +53,39 @@ export const GetReportDetails = async (_id) => {
   });
 };
 
+export const GetAllReportsForUser = () => {
+  const {
+    token
+  } = store.getState().auth;
+  if (!token) throw new Error("Token not found!");
+  return axios.get(`${BACKEND_URL}/api/user/get-all-reports-for-user`, {
+    headers: {
+      token
+    }
+  })
+}
+
+
+export const GetAllAccessedReportsForUser = () => {
+  const {
+    token
+  } = store.getState().auth;
+  if (!token) throw new Error("Token not found!");
+  return axios.get(`${BACKEND_URL}/api/user/get-all-accessed-reports-for-user`, {
+    headers: {
+      token
+    }
+  })
+}
+
 export const GetAllUsersForReport = (_id) => {
-  const { token } = store.getState().auth;
+  const {
+    token
+  } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
 
   return axios.get(
-    `${BACKEND_URL}/api/report/get-all-users-for-report/${_id}`,
-    {
+    `${BACKEND_URL}/api/report/get-all-users-for-report/${_id}`, {
       headers: {
         token,
       },
@@ -48,7 +94,9 @@ export const GetAllUsersForReport = (_id) => {
 };
 
 export const GiveReportAccessToUser = async (body) => {
-  const { token } = store.getState().auth;
+  const {
+    token
+  } = store.getState().auth;
   if (!token) throw new Error("Token not found!");
   await axios
     .put(`${BACKEND_URL}/api/report/give-report-access-to-user`, body, {
