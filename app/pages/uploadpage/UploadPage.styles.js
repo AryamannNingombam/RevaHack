@@ -14,8 +14,8 @@ export const MainContainer = styled.ScrollView`
 `;
 
 export const HeaderText = styled.Text`
-  margin: 48px 16px;
-  margin-bottom: 0;
+  margin: 24px 16px;
+  margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};
   font-size: 28px;
@@ -50,4 +50,21 @@ export const UploadContainer = styled.View`
   margin: 32px 0;
   justify-content: center;
   align-items: center;
+`;
+
+export const UploadButtonContainer = styled.View`
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const DeleteBtn = styled.View`
+  transform: translateY(-210px);
+  background: #ffcfc2;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
 `;

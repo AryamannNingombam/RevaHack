@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { logout } from '../../app/auth.slice';
@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/core';
 import { Image, TouchableOpacity } from 'react-native';
 import { IconButton, Colors } from 'react-native-paper';
+import { useIsFocused } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import IconOg from 'react-native-vector-icons/FontAwesome';
@@ -32,15 +33,18 @@ import {
 import store from '../../app/store';
 
 export default function Profile() {
-  const userDetails = store.getState().auth.userData;
+  let userDetails = store.getState().auth.userData;
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleLogout = (e) => {
     e.preventDefault();
-    console.log('LOGOUT TRIGGERED');
     dispatch(logout());
-    navigation.navigate('PreLogin');
   };
+
+  useEffect(() => {
+    userDetails = store.getState().auth.userData;
+  }, [isFocused]);
 
   return (
     <SafeArea>
@@ -68,11 +72,17 @@ export default function Profile() {
             varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
           </AboutInfo>
         </AboutContainer>
-        <ServiceContainer>
-          <Icon name={'heart'} size={24}></Icon>
-          <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Health Info</ServiceText>
-          <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
-        </ServiceContainer>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HealthInfo');
+          }}
+        >
+          <ServiceContainer>
+            <Icon name={'heart'} size={24}></Icon>
+            <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Health Info</ServiceText>
+            <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
+          </ServiceContainer>
+        </TouchableOpacity>
 
         <ServiceContainer>
           <Icon name={'file-medical'} size={24}></Icon>

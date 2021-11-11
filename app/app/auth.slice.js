@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { SignInUser, SignUpUser } from '../services/user.service';
+import {
+  GetUserDetails,
+  SignInUser,
+  SignUpUser,
+  UpdateUserDetails,
+} from '../services/user.service';
 
 export const SignUpThunk = createAsyncThunk(
   'auth/signup-user',
@@ -17,8 +22,33 @@ export const SignUpThunk = createAsyncThunk(
 export const LoginThunk = createAsyncThunk(
   '/auth/login-user',
   async (body, { rejectWithValue }) => {
-    console.log(body);
     return SignInUser(body)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.log('error');
+        console.log(error);
+        return rejectWithValue(error);
+      });
+  },
+);
+export const EditProfileThunk = createAsyncThunk(
+  '/api/user/update-user-details',
+  async (body, { rejectWithValue }) => {
+    console.log(body);
+    return UpdateUserDetails(body)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.log('error');
+        console.log(error);
+        return rejectWithValue(error);
+      });
+  },
+);
+
+export const GetUserDetailsThunk = createAsyncThunk(
+  '/api/user/get-user-details',
+  async (body, { rejectWithValue }) => {
+    return GetUserDetails(body)
       .then((response) => response.data)
       .catch((error) => {
         console.log('error');
@@ -38,8 +68,13 @@ const slice = createSlice({
   initialState,
   reducers: {
     logout: (state, action) => {
-      state = initialState;
-      console.log('LOGGGGOUT');
+      state.userData = null;
+      state.token = null;
+      console.log(state);
+    },
+    refresh: (state, action) => {
+      state.userData = action.payload.userData;
+      state.token = action.payload.token;
       console.log(state);
     },
   },
@@ -52,9 +87,15 @@ const slice = createSlice({
       console.log('Error signing in!');
       state = initialState;
     },
+    [GetUserDetailsThunk.fulfilled]: (state, action) => {
+      state.userData = action.payload.user;
+    },
+    [GetUserDetailsThunk.rejected]: (state, action) => {
+      console.log('Error getting details!');
+    },
   },
 });
 
 export default slice.reducer;
 
-export const { logout } = slice.actions;
+export const { logout, refresh } = slice.actions;

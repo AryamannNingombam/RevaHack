@@ -1,13 +1,13 @@
-const UserModel = require("../models/User.model");
-const jwt = require("jsonwebtoken");
-const ReportModel = require("../models/Report.model");
+const UserModel = require('../models/User.model');
+const jwt = require('jsonwebtoken');
+const ReportModel = require('../models/Report.model');
 
 exports.GetAllAccessedReportsForUser = (req, res, next) => {
   const { email } = req.user;
   if (!email)
     return res.status(500).json({
       success: false,
-      message: "Required values not provided!",
+      message: 'Required values not provided!',
     });
   UserModel.findOne({
     email,
@@ -24,11 +24,11 @@ exports.GetAllAccessedReportsForUser = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log("error");
+      console.log('error');
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: 'Unknown server error!',
       });
     });
 };
@@ -50,11 +50,11 @@ exports.GetAllReportsForUser = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log("error");
+      console.log('error');
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: 'Unknown server error!',
       });
     });
 };
@@ -68,11 +68,11 @@ exports.GetAllUsers = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log("error");
+      console.log('error');
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: 'Unknown server error!',
       });
     });
 };
@@ -86,7 +86,7 @@ exports.SignUp = async (req, res, next) => {
   if (emailCheck.length !== 0) {
     return res.status(500).json({
       success: false,
-      message: "Email already exists!",
+      message: 'Email already exists!',
     });
   }
   const newUser = new UserModel(req.body);
@@ -99,22 +99,22 @@ exports.SignUp = async (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log("Error!");
+      console.log('Error!');
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: 'Unknown server error!',
       });
     });
 };
 
 exports.SignIn = (req, res, next) => {
-  console.log("called");
+  console.log('called');
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(500).json({
       success: false,
-      message: "Required values not provided!",
+      message: 'Required values not provided!',
     });
   let HASH = process.env.JWT_HASH;
   UserModel.findOne({
@@ -125,16 +125,16 @@ exports.SignIn = (req, res, next) => {
         const check = await user.MatchPassword(password);
 
         if (!check) {
-          console.log("Error");
+          console.log('Error');
 
           return res.status(500).json({
             success: false,
-            message: "Unknown server error!",
+            message: 'Unknown server error!',
           });
         }
 
         if (!HASH) {
-          throw new Error("Hash not provided!");
+          throw new Error('Hash not provided!');
         }
         const userData = user;
         const token = jwt.sign(
@@ -143,8 +143,8 @@ exports.SignIn = (req, res, next) => {
           },
           HASH,
           {
-            expiresIn: "10h",
-          }
+            expiresIn: '10h',
+          },
         );
         return res.status(200).json({
           success: true,
@@ -154,16 +154,16 @@ exports.SignIn = (req, res, next) => {
       } else {
         return res.status(500).json({
           success: false,
-          message: "Username does not exist!",
+          message: 'Username does not exist!',
         });
       }
     })
     .catch((err) => {
-      console.log("error");
+      console.log('error');
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: 'Unknown server error!',
       });
     });
 };
@@ -171,28 +171,12 @@ exports.SignIn = (req, res, next) => {
 exports.CheckedSignedIn = (req, res, next) => {
   return res.status(200).json({
     success: true,
-    message: "User is signed in!",
+    message: 'User is signed in!',
   });
 };
 
-
-
-exports.UpdateUserDetails = (req, res, next) => {
-  const newDetails = req.body;
-  if (!req.user.userId || !newDetails)
-    return res.status(500).json({
-      success: false,
-      message: "Required values not provided!",
-    });
-  return UserModel.findOneAndUpdate(
-    {
-      _id: req.user.userId,
-    },
-    newDetails,
-    {
-      new: true,
-    }
-  )
+exports.UpdateUserHealthInfo = (req, res, next) => {
+  UserModel.findByIdAndUpdate({ _id: req.user.userId }, req.body, { new: true })
     .then((u) => {
       return res.status(200).json({
         success: true,
@@ -203,7 +187,38 @@ exports.UpdateUserDetails = (req, res, next) => {
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: "Unknown server error! ",
+      });
+    });
+};
+
+exports.UpdateUserDetails = (req, res, next) => {
+  const newDetails = req.body;
+  if (!req.user.userId || !newDetails)
+    return res.status(500).json({
+      success: false,
+      message: 'Required values not provided!',
+    });
+  return UserModel.findOneAndUpdate(
+    {
+      _id: req.user.userId,
+    },
+    newDetails,
+    {
+      new: true,
+    },
+  )
+    .then((u) => {
+      return res.status(200).json({
+        success: true,
+      });
+    })
+    .catch((err) => {
+      console.log('error');
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: 'Unknown server error!',
       });
     });
 };
@@ -213,7 +228,7 @@ exports.GetUserDetails = (req, res, next) => {
   if (!email)
     return res.status(500).json({
       success: false,
-      message: "Required values not provided!",
+      message: 'Required values not provided!',
     });
   return UserModel.findOne({
     email,
@@ -221,15 +236,15 @@ exports.GetUserDetails = (req, res, next) => {
     .then((user) => {
       return res.status(200).json({
         success: true,
-        user: user.GetUserData(),
+        user: user,
       });
     })
     .catch((err) => {
-      console.log("error");
+      console.log('error');
       console.log(err);
       return res.status(500).json({
         success: false,
-        message: "Unknown server error!",
+        message: 'Unknown server error!',
       });
     });
 };

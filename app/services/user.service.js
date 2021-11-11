@@ -1,23 +1,20 @@
-import axios from "axios";
-import store from "../app/store";
-import { BACKEND_URL } from "../constants";
+import axios from 'axios';
+import store from '../app/store';
+import { BACKEND_URL } from '../constants';
 
 export const GetAllAccessedReportsForUser = () => {
   const { token } = store.getState().auth;
-  if (!token) throw new Error("Token not found!");
-  return axios.get(
-    `${BACKEND_URL}/api/user/get-all-accessed-reports-for-user`,
-    {
-      headers: {
-        token,
-      },
-    }
-  );
+  if (!token) throw new Error('Token not found!');
+  return axios.get(`${BACKEND_URL}/api/user/get-all-accessed-reports-for-user`, {
+    headers: {
+      token,
+    },
+  });
 };
 
 export const GetAllReportsForUser = () => {
   const { token } = store.getState().auth;
-  if (!token) throw new Error("Token not found!");
+  if (!token) throw new Error('Token not found!');
   return axios.get(`${BACKEND_URL}/api/user/get-all-reports-for-user`, {
     headers: {
       token,
@@ -35,7 +32,7 @@ export const GetAllUsers = async () => {
 
 export const UpdateUserDetails = (body) => {
   const { token } = store.getState().auth;
-  if (!token) throw new Error("Token not found!");
+  if (!token) throw new Error('Token not found!');
   return axios.put(`${BACKEND_URL}/api/user/update-user-details`, body, {
     headers: {
       token,
@@ -45,7 +42,7 @@ export const UpdateUserDetails = (body) => {
 
 export const GetUserDetails = (_id) => {
   const { token } = store.getState().auth;
-  if (!token) throw new Error("Token not found!");
+  if (!token) throw new Error('Token not found!');
   return axios.get(`${BACKEND_URL}/api/user/get-user-details`, {
     headers: {
       token,
