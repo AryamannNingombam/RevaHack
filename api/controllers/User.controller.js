@@ -114,7 +114,7 @@ exports.SignUp = async (req, res, next) => {
     });
 };
 
-exports.GetSharedReportsByUser = (req, res, next) => {
+exports.GetSharedReportsByUser = async (req, res, next) => {
   const user = await UserModel.findById(res.locals.uid);
   const reports = []
   for (let uid of user.reports) {

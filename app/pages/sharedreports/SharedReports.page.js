@@ -3,7 +3,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { GetAllAccessedReportsForUser, GetAllReportsForUser } from '../../services/user.service';
-import { GiveReportAccessToUser } from '../../services/report.service';
+import { GetSharedReportsByUser, GiveReportAccessToUser, MakeReportPrivate } from '../../services/report.service';
 import {
   List,
   Modal,
@@ -23,61 +23,41 @@ import { AccessButtonContainer, HeaderText, SingleReport } from './SharedReports
 export default function SharedReportsPage() {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-  const [showOwn,setShowOwn] = useState(true);
-  const [visible, setVisible] = useState(false);
-  const [currentRep, setCurrentRep] = useState(null);
-  const [email, setEmail] = useState('');
+ 
+
   const [reports, setReports] = useState([]);
   const [toggle, setToggle] = useState(false);
 
-  const showModal = (id) => {
-    setCurrentRep(id);
-    setVisible(true);
-  };
-  const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: 'white', padding: 10, margin: 20, borderRadius: 10 };
-
-  const shareUser = async () => {
-    await GiveReportAccessToUser({
-      email: email,
-      reportId: currentRep,
-    })
-      .then((res) => {
-        console.log(res);
-        hideModal();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+ 
+ 
 
   const getReports = async () => {
-    console.log('get reports');
-    if (showOwn){
-      await GetAllReportsForUser()
-      .then((res) => {
-        setReports(res.data['reports']);
-        setToggle(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }else{
-      await GetAllAccessedReportsForUser()
-      .then(res=>res.data)
-      .then(data=>{
-        setReports(data.reports);
-        setToggle(true)
-      })
-      .catch(err=>console.log(err))
-    }
+    GetSharedReportsByUser()
+    .then(response=>response.data)
+    .then(data=>{
+      setReports(data.reports);
+      setToggle(true)
+    })
+    .catch(err=>{
+      console.log('error');
+      console.log(err);
+    })
     
   };
 
-  const OnSharedReportsButtonPress = async()=>{
-    setShowOwn(!showOwn)
-    await getReports();
+  const OnPrivateButtonClick = (_id)=>{
+      MakeReportPrivate({_id})
+      .then(response=>response.data)
+      .then(data=>{
+        console.log(data)
+      })
+      .catch(err=>{
+        console.log("error");
+        console.log(err)
+      })
   }
+
+ 
 
   useEffect(() => {
     getReports();
@@ -108,13 +88,15 @@ export default function SharedReportsPage() {
                           description={new Date(data.date).toDateString()}
                           left={(props) => <List.Icon {...props} icon="file" />}
                           right={(props) => {
-                            return (
-                              showOwn ? <Button
+                            return (<Button
                                 labelStyle={{ color: Colors.blue300 }}
                                 {...props}
-                                onPress={() => showModal(data._id)}>
+                                onPress={async()=>{
+                                  OnPrivateButtonClick(data._id);
+                                  await getReports();
+                                }}>
                                 Make Private
-                              </Button> : null
+                              </Button>
                             );
                           }}
                         />
@@ -135,7 +117,7 @@ export default function SharedReportsPage() {
                       Upload a report
                     </Button>
                     <Text style={{ textAlign: 'center', padding: 24 }}>
-                      Looks like you don't have any reports yet.
+                      Looks like you don't have any shared reports yet.
                     </Text>
                   </VerticalCenter>
                 </>

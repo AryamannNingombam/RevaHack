@@ -29,6 +29,18 @@ export const GetSharedReportsByUser = () => {
   })
 }
 
+export const MakeReportPrivate = (body) => {
+  const {
+    token
+  } = store.getState().auth;
+  if (!token) throw new Error('token not found!');
+  return axios.put(`${BACKEND_URL}/api/report/make-report-private`, body, {
+    headers: {
+      token
+    }
+  })
+}
+
 export const DeleteReport = (body) => {
   const {
     token

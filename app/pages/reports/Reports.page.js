@@ -75,13 +75,13 @@ export default function ReportPage() {
   };
 
   const OnSharedReportsButtonPress = async()=>{
-    setShowOwn(!showOwn)
-    await getReports();
+    if(showOwn)setShowOwn(false);
+    else setShowOwn(true)
   }
 
   useEffect(() => {
     getReports();
-  }, [isFocused]);
+  }, [isFocused,showOwn]);
 
   return (
     <SafeArea>
@@ -164,7 +164,7 @@ export default function ReportPage() {
                       Upload a report
                     </Button>
                     <Text style={{ textAlign: 'center', padding: 24 }}>
-                      Looks like you don't have any reports yet.
+                      Looks like you don't have any accessed reports yet.
                     </Text>
                   </VerticalCenter>
                 </>
