@@ -1,8 +1,5 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs');
-
-
-
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -27,12 +24,12 @@ const UserSchema = new mongoose.Schema({
   accessedReports: {
     type: [mongoose.Types.ObjectId],
     required: true,
-    default: []
+    default: [],
   },
   reports: {
     type: [mongoose.Types.ObjectId],
     required: true,
-    default: []
+    default: [],
   },
   password: {
     type: String,
@@ -41,12 +38,12 @@ const UserSchema = new mongoose.Schema({
   dateOfBirth: {
     type: Date,
     required: true,
-    default: new Date(Date.now()) 
+    default: new Date(Date.now()),
   },
   gender: {
     type: String,
     required: true,
-    enum: ['MALE', 'FEMALE', 'OTHER'],
+    enum: ["MALE", "FEMALE", "OTHER"],
   },
   height: {
     type: Number,
@@ -62,8 +59,8 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
     next();
   }
 
@@ -76,8 +73,7 @@ UserSchema.methods.AddReport = async function (hash) {
   user.accessedReports.push(hash);
   await user.save();
   return;
-}
-
+};
 
 UserSchema.methods.DeleteReport = async function (hash) {
   const user = this;
@@ -87,7 +83,7 @@ UserSchema.methods.DeleteReport = async function (hash) {
   }
   await user.save();
   return;
-}
+};
 
 UserSchema.methods.MatchPassword = async function (password) {
   const user = this;
@@ -110,4 +106,4 @@ UserSchema.methods.GetUserData = async function () {
   };
 };
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

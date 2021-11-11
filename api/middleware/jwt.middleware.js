@@ -18,10 +18,7 @@ const CheckJWT = (req, res, next) => {
     const userData = jwt.verify(token, process.env.JWT_HASH);
     res.locals.key = userData.userData.password.substr(-16);
     res.locals.email = userData.userData.email;
-    req.user = {
-      email: userData.userData.email,
-      userId: userData.userData._id,
-    };
+    res.locals.uid = userData.userData._id;
 
     let currentTime = Date.now().valueOf() / 1000;
     if (userData.exp < currentTime) {

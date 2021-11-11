@@ -110,10 +110,7 @@ exports.AddReport = async (req, res, next) => {
 };
 
 exports.GiveReportAccessToUser = async (req, res, next) => {
-  const {
-    reportId,
-    email
-  } = req.body;
+  const { reportId, email } = req.body;
   if (!reportId || !email) {
     return res.status(500).json({
       success: false,
@@ -122,7 +119,7 @@ exports.GiveReportAccessToUser = async (req, res, next) => {
   }
   const report = await ReportModel.findOne({
     _id: reportId,
-    user: req.user.userData,
+    user: res.locals.uid,
   });
   if (!report) {
     return res.status(500).json({
@@ -131,7 +128,7 @@ exports.GiveReportAccessToUser = async (req, res, next) => {
     });
   }
   const user = await UserModel.findOne({
-    email
+    email: email.toLowerCase(),
   });
   if (!user) {
     return res.status(500).json({
@@ -157,17 +154,15 @@ exports.GiveReportAccessToUser = async (req, res, next) => {
 };
 
 exports.GetAllUsersForReport = (req, res, next) => {
-  const {
-    _id
-  } = req.params;
+  const { _id } = req.params;
   if (!_id)
     return res.status(500).json({
       success: false,
       message: "Required values not provided!",
     });
   ReportModel.findById({
-      _id,
-    })
+    _id,
+  })
     .then(async (report) => {
       const userDetails = [];
       for (let user of report.access) {
@@ -192,9 +187,7 @@ exports.GetAllUsersForReport = (req, res, next) => {
 };
 
 exports.DeleteReport = async (req, res, next) => {
-  const {
-    _id
-  } = req.body;
+  const { _id } = req.body;
   if (!_id)
     return res.status(500).json({
       success: false,
@@ -226,19 +219,54 @@ exports.DeleteReport = async (req, res, next) => {
     });
 };
 
+exports.GetReportOfOtherUser = async (req, res, next) => {
+  const { email } = res.locals;
+  const { _id } = req.params;
+  if (!email || !_id)
+    return res.status(500).json({
+      success: false,
+      message: "Reuired values not provided!",
+    });
+  const user = await UserModel.findOne({ email });
+  if (!user)
+    return res.status(500).json({
+      success: false,
+      message: "user not found!",
+    });
+  const allReports = user.accessedReports;
+  if (allReports.indexOf(_id) === -1)
+    return res.status(500).json({
+      success: false,
+      message: "No Access! ",
+    });
+  return ReportModel.findById({ _id })
+    .then((report) => {
+      return res.status(200).json({
+        success: true,
+        report,
+      });
+    })
+    .catch((err) => {
+      console.log("error");
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Unknown server error! ",
+      });
+    });
+};
+
 exports.GetReport = async (req, res, next) => {
-  const {
-    _id
-  } = req.params;
+  const { _id } = req.params;
   if (!_id)
     return res.status(500).json({
       success: false,
       message: "Required values not provided!",
     });
   return ReportModel.findOne({
-      _id,
-      user: req.user.userId,
-    })
+    _id,
+    user: res.locals.uid,
+  })
     .then(async (report) => {
       console.log(report);
       if (!report)
