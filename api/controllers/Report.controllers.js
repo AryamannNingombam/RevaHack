@@ -5,6 +5,44 @@ const ipfs = require("ipfs-http-client");
 const client = ipfs.create("https://ipfs.infura.io:5001/api/v0");
 
 
+exports.ChangeReportName = async (req, res, next) => {
+  const {
+    reportId,
+    newName
+  } = req.body;
+  if (!req.body) {
+    return res.status(500)
+      .json({
+        success: false,
+        message: "Required values not provided!"
+      })
+  }
+  ReportModel.findOneAndUpdate({
+      _id: reportId,
+      user: res.locals.uid
+    }, {
+      name: newName
+    }, {
+      new: true
+    })
+    .then(newReport => {
+      return res.status(200)
+        .json({
+          success: true,
+          report: newReport
+        })
+    })
+    .catch(err => {
+      console.log('error');
+      console.log(err);
+      return res.status(500)
+        .json({
+          success: false,
+          message: "Unknown server error"
+        })
+    })
+}
+
 
 
 exports.AddReport = async (req, res, next) => {

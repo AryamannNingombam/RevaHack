@@ -10,6 +10,7 @@ const {
   DeleteReport,
   GetReport,
   GiveReportAccessToUser,
+  ChangeReportName,
 } = require("../controllers/Report.controllers");
 const CheckJWT = require("../middleware/jwt.middleware");
 
@@ -17,6 +18,8 @@ const router = express.Router();
 
 router.post("/add-report", CheckJWT, upload.single("file"), AddReport);
 router.get("/get-all-users-for-report/:_id", CheckJWT, GetAllUsersForReport);
+
+router.put('/change-report-name',CheckJWT,ChangeReportName)
 
 router.post("/delete-report", CheckJWT, DeleteReport);
 
