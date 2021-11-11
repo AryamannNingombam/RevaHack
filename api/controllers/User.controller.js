@@ -3,17 +3,15 @@ const jwt = require("jsonwebtoken");
 const ReportModel = require("../models/Report.model");
 
 exports.GetAllAccessedReportsForUser = (req, res, next) => {
-  const {
-    email
-  } = res.locals;
+  const { email } = res.locals;
   if (!email)
     return res.status(500).json({
       success: false,
       message: "Required values not provided!",
     });
   UserModel.findOne({
-      email,
-    })
+    email,
+  })
     .then(async (user) => {
       const reports = [];
       for (let report of user.accessedReports) {
@@ -36,12 +34,10 @@ exports.GetAllAccessedReportsForUser = (req, res, next) => {
 };
 
 exports.GetAllReportsForUser = (req, res, next) => {
-  const {
-    email
-  } = res.locals;
+  const { email } = res.locals;
   UserModel.findOne({
-      email,
-    })
+    email,
+  })
     .then(async (user) => {
       const reports = [];
       for (let report of user.reports) {
@@ -82,9 +78,7 @@ exports.GetAllUsers = (req, res, next) => {
 };
 
 exports.SignUp = async (req, res, next) => {
-  const {
-    email
-  } = req.body;
+  const { email } = req.body;
 
   const emailCheck = await UserModel.find({
     email,
@@ -114,29 +108,25 @@ exports.SignUp = async (req, res, next) => {
     });
 };
 
-exports.GetSharedReportsByUser = (req, res, next) => {
+exports.GetSharedReportsByUser = async (req, res, next) => {
   const user = await UserModel.findById(res.locals.uid);
-  const reports = []
+  const reports = [];
   for (let uid of user.reports) {
     const report = await ReportModel.findOne({
-      _id: uid
-    })
+      _id: uid,
+    });
     if (report.access.length === 0) continue;
-    reports.push(report)
+    reports.push(report);
   }
   return res.status(200).json({
     success: true,
-    reports
-  })
-}
-
+    reports,
+  });
+};
 
 exports.SignIn = (req, res, next) => {
   console.log("called");
-  const {
-    email,
-    password
-  } = req.body;
+  const { email, password } = req.body;
   if (!email || !password)
     return res.status(500).json({
       success: false,
@@ -144,8 +134,8 @@ exports.SignIn = (req, res, next) => {
     });
   let HASH = process.env.JWT_HASH;
   UserModel.findOne({
-      email,
-    })
+    email,
+  })
     .then(async (user) => {
       if (user) {
         const check = await user.MatchPassword(password);
@@ -163,10 +153,12 @@ exports.SignIn = (req, res, next) => {
           throw new Error("Hash not provided!");
         }
         const userData = user;
-        const token = jwt.sign({
+        const token = jwt.sign(
+          {
             userData,
           },
-          HASH, {
+          HASH,
+          {
             expiresIn: "10h",
           }
         );
@@ -200,11 +192,15 @@ exports.CheckedSignedIn = (req, res, next) => {
 };
 
 exports.UpdateUserHealthInfo = (req, res, next) => {
-  UserModel.findByIdAndUpdate({
-      _id: res.locals.uid
-    }, req.body, {
-      new: true
-    })
+  UserModel.findByIdAndUpdate(
+    {
+      _id: res.locals.uid,
+    },
+    req.body,
+    {
+      new: true,
+    }
+  )
     .then((u) => {
       return res.status(200).json({
         success: true,
@@ -227,13 +223,15 @@ exports.UpdateUserDetails = (req, res, next) => {
       success: false,
       message: "Required values not provided!",
     });
-  return UserModel.findOneAndUpdate({
-        _id: res.locals.uid,
-      },
-      newDetails, {
-        new: true,
-      }
-    )
+  return UserModel.findOneAndUpdate(
+    {
+      _id: res.locals.uid,
+    },
+    newDetails,
+    {
+      new: true,
+    }
+  )
     .then((u) => {
       return res.status(200).json({
         success: true,
@@ -250,17 +248,15 @@ exports.UpdateUserDetails = (req, res, next) => {
 };
 
 exports.GetUserDetails = (req, res, next) => {
-  const {
-    email
-  } = res.locals;
+  const { email } = res.locals;
   if (!email)
     return res.status(500).json({
       success: false,
       message: "Required values not provided!",
     });
   return UserModel.findOne({
-      email,
-    })
+    email,
+  })
     .then((user) => {
       return res.status(200).json({
         success: true,
