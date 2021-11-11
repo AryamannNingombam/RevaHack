@@ -1,18 +1,18 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from 'react';
 import {
   BackgroundImage,
   MainCarousel,
   WelcomeText,
   TitleText,
   StartedButton,
-} from "./prelogin.styles";
-import { Dimensions, Text } from "react-native";
-import { Slide } from "../../components/prelogin/Slide.component";
-import { slideList } from "../../components/prelogin/slideList";
-import { Pagination } from "../../components/prelogin/Pagination-component";
-import { SafeArea } from "../../components/utility/safe-area.component";
+} from './prelogin.styles';
+import { Dimensions, Text } from 'react-native';
+import { Slide } from '../../components/prelogin/Slide.component';
+import { slideList } from '../../components/prelogin/slideList';
+// import { Pagination } from "../../components/prelogin/Pagination-component";
+import { SafeArea } from '../../components/utility/safe-area.component';
 
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width;
 
 const PreLoginScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -46,7 +46,7 @@ const PreLoginScreen = ({ navigation }) => {
         length: windowWidth,
         offset: index * windowWidth,
       }),
-      []
+      [],
     ),
   };
 
@@ -70,8 +70,8 @@ const PreLoginScreen = ({ navigation }) => {
           <StartedButton
             color="white"
             uppercase={false}
-            labelStyle={{ fontSize: 20, fontFamily: "BasisGrotesqueProBold" }}
-            onPress={() => navigation.navigate("Login")}
+            labelStyle={{ fontSize: 20, fontFamily: 'BasisGrotesqueProBold' }}
+            onPress={() => navigation.navigate('Login')}
           >
             Get Started
           </StartedButton>

@@ -35,13 +35,20 @@ export default function ReportPage() {
     setVisible(true);
   };
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: 'white', padding: 10 };
+  const containerStyle = { backgroundColor: 'white', padding: 10, margin: 20, borderRadius: 10 };
 
   const shareUser = async () => {
     await GiveReportAccessToUser({
       email: email,
       reportId: currentRep,
-    });
+    })
+      .then((res) => {
+        console.log(res);
+        hideModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getReports = async () => {
@@ -66,7 +73,7 @@ export default function ReportPage() {
         <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
             <TextInput
-              label="Email of doctor"
+              label="Email of user to share the report"
               value={email}
               onChangeText={(email) => setEmail(email)}
             ></TextInput>
@@ -75,6 +82,11 @@ export default function ReportPage() {
                 shareUser();
                 hideModal();
               }}
+              mode="contained"
+              color={Colors.blue400}
+              labelStyle={{ color: '#FFF' }}
+              style={{ marginTop: 20 }}
+              icon="share"
             >
               Share Report
             </Button>
@@ -103,7 +115,11 @@ export default function ReportPage() {
                           left={(props) => <List.Icon {...props} icon="file" />}
                           right={(props) => {
                             return (
-                              <Button {...props} onPress={() => showModal(data._id)}>
+                              <Button
+                                labelStyle={{ color: Colors.blue300 }}
+                                {...props}
+                                onPress={() => showModal(data._id)}
+                              >
                                 Share
                               </Button>
                             );

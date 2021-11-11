@@ -3,7 +3,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { GetAllAccessedReportsForUser } from '../../services/user.service';
-import { GiveReportAccessToUser } from '../../services/report.service';
+import { DeleteReport } from '../../services/report.service';
 import {
   List,
   Modal,
@@ -17,7 +17,7 @@ import {
   IconButton,
 } from 'react-native-paper';
 
-import { MainContainer } from '../profile/Profile.styles';
+import { MainContainer, UserSubtitleText } from '../profile/Profile.styles';
 import { VerticalCenter } from '../viewreport/ViewReport.styles';
 import { HeaderText, SingleReport } from '../reports/Reports.styles';
 import { DeleteBtn } from '../uploadpage/UploadPage.styles';
@@ -38,13 +38,20 @@ export default function SharedReportsPage() {
     setVisible(true);
   };
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: 'white', padding: 10 };
+  const containerStyle = { backgroundColor: 'white', padding: 10, margin: 20, borderRadius: 10 };
 
   const shareUser = async () => {
-    await GiveReportAccessToUser({
+    await DeleteReport({
       email: email,
       reportId: currentRep,
-    });
+    })
+      .then((res) => {
+        console.log(res);
+        hideModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getReports = async () => {
@@ -68,18 +75,32 @@ export default function SharedReportsPage() {
       <Provider>
         <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-            <TextInput
-              label="Email of doctor"
+            {/* <TextInput
+              label="Email of user to share the report"
               value={email}
               onChangeText={(email) => setEmail(email)}
-            ></TextInput>
+            ></TextInput> */}
+            <UserSubtitleText
+              style={{
+                fontSize: 16,
+                paddingTop: 12,
+                textAlign: 'center',
+              }}
+            >
+              Are you sure you want to remove this report?
+            </UserSubtitleText>
             <Button
               onPress={() => {
                 shareUser();
                 hideModal();
               }}
+              mode="contained"
+              color={Colors.red400}
+              labelStyle={{ color: '#FFF' }}
+              style={{ marginTop: 20 }}
+              icon="delete"
             >
-              Share Report
+              Remove this report
             </Button>
           </Modal>
         </Portal>
@@ -107,7 +128,7 @@ export default function SharedReportsPage() {
                           right={(props) => {
                             return (
                               <Button
-                                labelStyle={Colors.red400}
+                                labelStyle={{ color: Colors.red400 }}
                                 {...props}
                                 onPress={() => showModal(data._id)}
                               >

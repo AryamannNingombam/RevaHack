@@ -79,8 +79,8 @@ export const StartedButton = styled(Button)`
   color: #3577d0;
   background-color: #1d1d1d;
   border-radius: 50px;
-  width: 200px;
   height: 50px;
+  padding: 0 40px;
   align-items: center;
   justify-content: center;
   margin-top: 30px;

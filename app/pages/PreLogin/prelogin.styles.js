@@ -1,14 +1,10 @@
-import styled from "styled-components";
-import { FlatList, Dimensions } from "react-native";
-import { Button } from "react-native-paper";
-import {
-  BACKGROUND_COLOR,
-  PRIMARY_FONT,
-  SECONDARY_FONT,
-} from "../../constants";
+import styled from 'styled-components';
+import { FlatList, Dimensions } from 'react-native';
+import { Button } from 'react-native-paper';
+import { BACKGROUND_COLOR, PRIMARY_FONT, SECONDARY_FONT } from '../../constants';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const MainCarousel = styled(FlatList)`
   flex: 1;
@@ -55,16 +51,15 @@ export const PaginationDot = styled.View`
   height: 8px;
   border-radius: 4px;
   margin: 0px 8px;
-  background-color: ${({ index, i }) => (index === i ? "#184e81" : "white")};
+  background-color: ${({ index, i }) => (index === i ? '#184e81' : 'white')};
 `;
 
 export const StartedButton = styled(Button)`
   color: #3577d0;
   background-color: #1d1d1d;
   border-radius: 50px;
-  padding: 6px 30px;
-  position: absolute;
-  bottom: 90px;
+  padding: 8px 24px;
+  margin-bottom: 100px;
 `;
 
 export const WelcomeText = styled.Text`
