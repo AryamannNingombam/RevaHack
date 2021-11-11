@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeArea } from '../../components/utility/safe-area.component';
-import { GetAllReportsForUser } from '../../services/user.service';
+import { GetAllAccessedReportsForUser } from '../../services/user.service';
 import { GiveReportAccessToUser } from '../../services/report.service';
 import {
   List,
@@ -14,13 +14,16 @@ import {
   ActivityIndicator,
   Colors,
   Text,
+  IconButton,
 } from 'react-native-paper';
 
 import { MainContainer } from '../profile/Profile.styles';
 import { VerticalCenter } from '../viewreport/ViewReport.styles';
-import { HeaderText, SingleReport } from './Reports.styles';
+import { HeaderText, SingleReport } from '../reports/Reports.styles';
+import { DeleteBtn } from '../uploadpage/UploadPage.styles';
+import { NoReportsBtn } from './SharedReports.styles';
 
-export default function ReportPage() {
+export default function SharedReportsPage() {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
@@ -46,7 +49,7 @@ export default function ReportPage() {
 
   const getReports = async () => {
     console.log('get reports');
-    await GetAllReportsForUser()
+    await GetAllAccessedReportsForUser()
       .then((res) => {
         setReports(res.data['reports']);
         setToggle(true);
@@ -81,7 +84,7 @@ export default function ReportPage() {
           </Modal>
         </Portal>
         <MainContainer>
-          <HeaderText>Your Reports</HeaderText>
+          <HeaderText>Shared Reports</HeaderText>
 
           {toggle ? (
             <>
@@ -103,8 +106,12 @@ export default function ReportPage() {
                           left={(props) => <List.Icon {...props} icon="file" />}
                           right={(props) => {
                             return (
-                              <Button {...props} onPress={() => showModal(data._id)}>
-                                Share
+                              <Button
+                                labelStyle={Colors.red400}
+                                {...props}
+                                onPress={() => showModal(data._id)}
+                              >
+                                Remove
                               </Button>
                             );
                           }}
@@ -116,17 +123,19 @@ export default function ReportPage() {
 
               {reports.length == 0 && (
                 <>
-                  <VerticalCenter style={{ marginTop: 40 }}>
-                    <Button
-                      onPress={() => {
-                        navigation.navigate('Upload');
-                      }}
-                      labelStyle={{ color: Colors.blue400 }}
-                    >
-                      Upload a report
-                    </Button>
+                  <VerticalCenter
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      marginTop: 40,
+                    }}
+                  >
+                    <NoReportsBtn>
+                      <IconButton icon="cancel" size={68} color={'red'} />
+                    </NoReportsBtn>
                     <Text style={{ textAlign: 'center', padding: 24 }}>
-                      Looks like you don't have any reports yet.
+                      Looks like there are no reports shared yet
                     </Text>
                   </VerticalCenter>
                 </>
