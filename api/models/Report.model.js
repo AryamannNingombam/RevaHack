@@ -70,7 +70,7 @@ ReportSchema.methods.MakePrivate = async function () {
         success: false,
         message: "User not found!"
       })
-    u.accessedReports.splice(report._id, 1);
+    u.accessedReports.splice(u.accessedReports.indexOf(report._id), 1);
     await u.save();
   }
   report.access = [];
@@ -82,14 +82,10 @@ ReportSchema.methods.DeleteReportData = async function () {
   const report = this;
   const users = report.access;
   for (let user of users) {
-    await UserModel.findByIdAndUpdate({
-      _id: user,
-    }, {
-      $pull:{
-        accessedReports:report._id
-      }
-    });
-    
+    const u = await UserModel.findOne({_id:user})
+    const index = u.accessedReports.indexOf(report._id);
+    u.accessedReports.splice(index,1);
+    await u.save();
   }
   return;
 };

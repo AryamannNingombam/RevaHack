@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { Image } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { SafeArea } from '../../components/utility/safe-area.component';
-import { GetReportDetails } from '../../services/report.service';
+import { DeleteReport, GetReportDetails } from '../../services/report.service';
 import { ButtonsContainer, ImgContainer, MainContainer, VerticalCenter,MainHeading,DateText } from './ViewReport.styles';
 import { ActivityIndicator, Colors } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/core';
 
 
 
@@ -12,6 +13,7 @@ export default function ViewReportPage(props) {
   const { id, name, date } = props.route.params;
   const [baseImg, setBaseImg] = React.useState('');
   const [loaded, setLoaded] = React.useState(false);
+  const navigation = useNavigation();
   useEffect(async () => {
     if (id) {
       const res = await GetReportDetails(id);
@@ -19,6 +21,20 @@ export default function ViewReportPage(props) {
       setLoaded(true);
     }
   }, []);
+
+  const OnDeleteReportClick = ()=>{
+    DeleteReport({_id:id})
+    .then(response=>response.data)
+    .then(data=>{
+      console.log(data);
+      navigation.navigate('Home');
+    })
+    .catch(err=>{
+      console.log(err);
+      
+    })
+  }
+  
 
   return (
     <SafeArea>
@@ -75,6 +91,7 @@ export default function ViewReportPage(props) {
             color={Colors.red600}
             icon="delete"
             labelStyle={{ color: '#FFF' }}
+            onPress={OnDeleteReportClick}
           >
             Delete
           </Button>

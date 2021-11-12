@@ -160,7 +160,7 @@ export default function ReportPage() {
                   );
                 })}
 
-              {reports.length == 0 && (
+              {showOwn && reports.length == 0 && (
                 <>
                   <VerticalCenter style={{ marginTop: 40 }}>
                     <Button

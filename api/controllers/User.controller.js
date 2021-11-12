@@ -40,10 +40,12 @@ exports.GetAllReportsForUser = (req, res, next) => {
   })
     .then(async (user) => {
       const reports = [];
+      console.log(user.reports);
       for (let report of user.reports) {
         const reportData = await ReportModel.findById(report);
         reports.push(reportData);
       }
+      console.log(reports)
       return res.status(200).json({
         success: true,
         reports,

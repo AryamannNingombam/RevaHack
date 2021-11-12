@@ -279,17 +279,21 @@ exports.DeleteReport = async (req, res, next) => {
       message: "Required values not provided!",
     });
   const report = await ReportModel.findById({
-    _id,
+    _id,  
   });
   if (!report)
     return res.status(500).json({
       success: false,
       message: "Report not found!",
     });
-  await report.DeleteReportData();
+   await report.DeleteReportData()
   report
     .delete()
-    .then(() => {
+    .then(async() => {
+      const user = await UserModel.findById(res.locals.uid);
+      const index = user.reports.indexOf(_id);
+      user.reports.splice(index,1);
+      await user.save();
       return res.status(200).json({
         success: true,
       });

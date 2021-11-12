@@ -78,10 +78,11 @@ UserSchema.methods.AddReport = async function (hash) {
 UserSchema.methods.DeleteReport = async function (hash) {
   const user = this;
   const index = user.accessedReports.indexOf(hash);
-  if (index > -1) {
-    user.accessedReports.splice(index, 1);
-  }
-  await user.save();
+  console.log(index);
+  // if (index > -1) {
+  //   user.accessedReports.splice(index, 1);
+  // }
+  // await user.save();
   return;
 };
 

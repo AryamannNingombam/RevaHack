@@ -5,6 +5,7 @@ import { SafeArea } from '../../components/utility/safe-area.component';
 import Carousel from 'react-native-snap-carousel';
 import { Dimensions } from 'react-native';
 import { PRIMARY_FONT } from '../../constants';
+import { useIsFocused } from '@react-navigation/native';
 import {
   MainContainer,
   TopRow,
@@ -26,6 +27,7 @@ export default function HomePage() {
   const navigation = useNavigation();
   const { userData } = useSelector((state) => state.auth);
   const windowWidth = Dimensions.get('window').width;
+  const isFocused = useIsFocused();
   const [carouselItems, setCarouselItems] = React.useState([
     {
       title: 'Covid Report 1',
@@ -77,9 +79,9 @@ export default function HomePage() {
   };
 
   const getReports = async () => {
-    console.log('get reports');
     await GetAllReportsForUser()
       .then((res) => {
+        console.log(res.data);
         setCarouselItems(res.data['reports']);
       })
       .catch((err) => {
@@ -88,7 +90,7 @@ export default function HomePage() {
   };
   useEffect(() => {
     getReports();
-  }, []);
+  }, [isFocused]);
 
   return (
     <SafeArea>
