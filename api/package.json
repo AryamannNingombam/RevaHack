@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "clean": "del ./dist/*",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean"
   },
   "author": "ary_amann",
   "license": "ISC",

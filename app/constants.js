@@ -1,4 +1,4 @@
-export const BACKEND_URL = "https://66b1-1-186-12-36.ngrok.io";
+export const BACKEND_URL = "https://mrex-backend.herokuapp.com/";
 export const BACKGROUND_COLOR = "#3DBBF1";
 export const BACKGROUND_WHITE_COLOR = "#F5F5F5";
 export const SECONDARY_FONT = "BasisGrotesqueProMiddle";
