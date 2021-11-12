@@ -85,7 +85,9 @@ ReportSchema.methods.DeleteReportData = async function () {
     await UserModel.findByIdAndUpdate({
       _id: user,
     }, {
-      reports: []
+      $pull:{
+        accessedReports:report._id
+      }
     });
     
   }

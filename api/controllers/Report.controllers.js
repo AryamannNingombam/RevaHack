@@ -115,6 +115,7 @@ exports.DeleteAllReportsForUser = async (req, res, next) => {
       email: res.locals.email
     })
     .then(async user => {
+
       for (let report of user.reports) {
         const r = await ReportModel.findById(report);
         try {
@@ -132,6 +133,8 @@ exports.DeleteAllReportsForUser = async (req, res, next) => {
 
 
       }
+      user.reports = [];
+      await user.save();
       return res.status(200)
         .json({
           success: true,
