@@ -39,3 +39,12 @@ Users will also have the option to share reports with other users who will get a
   2. Dhruva Goyal
   3. Aditya Mohan
   4. Sitaraman S
+
+### LINKS
+  - [Product Video](https://www.youtube.com/watch?v=kmI5YqM8KrU)
+  - [Figma Link](https://www.figma.com/proto/hMsvOYwCBDwBcmpQzObxT4/Mrex?page-id=1%3A19&node-id=68%3A40&viewport=241%2C48%2C0.28&scaling=scale-down&starting-point-node-id=2%3A38)
+  - [Backend API](https://mrex-backend.herokuapp.com/welcome)
+  - Apk Link - Yet To Come
+  - Product Demo - Yet To Come
+
+   
