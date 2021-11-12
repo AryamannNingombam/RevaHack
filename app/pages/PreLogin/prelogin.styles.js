@@ -55,11 +55,12 @@ export const PaginationDot = styled.View`
 `;
 
 export const StartedButton = styled(Button)`
+
   color: #3577d0;
   background-color: #1d1d1d;
   border-radius: 50px;
   padding: 8px 24px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 export const WelcomeText = styled.Text`

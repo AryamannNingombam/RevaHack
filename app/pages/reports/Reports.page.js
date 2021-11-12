@@ -80,6 +80,7 @@ export default function ReportPage() {
   }
 
   useEffect(() => {
+    setToggle(false);
     getReports();
   }, [isFocused,showOwn]);
 
@@ -89,6 +90,8 @@ export default function ReportPage() {
         <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
             <TextInput
+              activeOutlineColor={'#3DBBF1'}
+              activeUnderlineColor={'#575757'}
               label="Email of user to share the report"
               value={email}
               onChangeText={(email) => setEmail(email)}
@@ -98,9 +101,8 @@ export default function ReportPage() {
                 shareUser();
                 hideModal();
               }}
-              mode="contained"
-              color={Colors.blue400}
-              labelStyle={{ color: '#FFF' }}
+              mode="text"
+              color={'#575757'}
               style={{ marginTop: 20 }}
               icon="share"
             >
@@ -172,7 +174,17 @@ export default function ReportPage() {
                       Upload a report
                     </Button>
                     <Text style={{ textAlign: 'center', padding: 24 }}>
-                      Looks like you don't have any accessed reports yet.
+                      No Reports To Show!
+                    </Text>
+                  </VerticalCenter>
+                </>
+              )}
+               {!showOwn && reports.length == 0 && (
+                <>
+                  <VerticalCenter style={{ marginTop: 40 }}>
+                 
+                    <Text style={{ textAlign: 'center', padding: 24 }}>
+                      No Reports To Show!
                     </Text>
                   </VerticalCenter>
                 </>
