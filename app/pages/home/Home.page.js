@@ -28,28 +28,7 @@ export default function HomePage() {
   const { userData } = useSelector((state) => state.auth);
   const windowWidth = Dimensions.get('window').width;
   const isFocused = useIsFocused();
-  const [carouselItems, setCarouselItems] = React.useState([
-    {
-      title: 'Covid Report 1',
-      text: 'Text 1',
-    },
-    {
-      title: 'Covid Report 2',
-      text: 'Text 2',
-    },
-    {
-      title: 'Covid Report 3',
-      text: 'Text 3',
-    },
-    {
-      title: 'Covid Report 4',
-      text: 'Text 4',
-    },
-    {
-      title: 'Covid Report 5',
-      text: 'Text 5',
-    },
-  ]);
+  const [carouselItems, setCarouselItems] = React.useState([]);
   const _renderItem = ({ item, index }) => {
     return (
       <ReportBox style={{ width: windowWidth * 0.6 }}>
@@ -96,22 +75,41 @@ export default function HomePage() {
     <SafeArea>
       <MainContainer>
         <TopRow>
-          <HeaderText>Welcome, {userData.name}</HeaderText>
+          <HeaderText>Hey, {userData.name.split(' ')[0]}!</HeaderText>
           <Image
             source={{ uri: 'https://source.unsplash.com/random/160x160' }}
             style={{ width: 50, height: 50, borderRadius: 8, marginRight: 24 }}
           />
         </TopRow>
+        <UserSubtitleText style={{ marginLeft: 24 }}>My Reports</UserSubtitleText>
 
         <RecentReports>
-          <Carousel
-            layout={'stack'}
-            layoutCardOffset={10}
-            data={carouselItems}
-            renderItem={_renderItem}
-            itemWidth={windowWidth * 0.8}
-            sliderWidth={windowWidth}
-          />
+          {carouselItems.length > 0 ? (
+            <Carousel
+              layout={'stack'}
+              layoutCardOffset={10}
+              data={carouselItems}
+              renderItem={_renderItem}
+              itemWidth={windowWidth * 0.8}
+              sliderWidth={windowWidth}
+            />
+          ) : (
+            <>
+              <Button
+                style={{ backgroundColor: Colors.blue400, marginLeft: 8, marginRight: 8 }}
+                color={Colors.white}
+                onPress={() => {
+                  navigation.navigate('Upload');
+                }}
+                labelStyle={{ color: Colors.white }}
+              >
+                Upload a report
+              </Button>
+              <UserSubtitleText style={{ textAlign: 'center', marginTop: 16 }}>
+                No Reports Added yet!
+              </UserSubtitleText>
+            </>
+          )}
         </RecentReports>
 
         <UserSubtitleText style={{ marginLeft: 24 }}>Health analysis</UserSubtitleText>
