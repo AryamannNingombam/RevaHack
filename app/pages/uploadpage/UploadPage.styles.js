@@ -28,11 +28,11 @@ export const HeaderText = styled.Text`
 
 export const FormView = styled.View`
   width: 100%;
-  padding: 0 16px;
+  padding: 0px 16px;
 `;
 
 export const Label = styled.Text`
-  color: #b0b0b0;
+  color: #575757;
   font-family: ${SECONDARY_FONT};
   font-size: 16px;
   font-style: normal;
@@ -42,9 +42,8 @@ export const Label = styled.Text`
 `;
 
 export const UploadContainer = styled.View`
-  width: 120px;
-  height: 120px;
-
+  width: 130px;
+  height: 130px;
   background: #ffffff;
   border-radius: 30px;
   margin: 32px 0;
@@ -55,8 +54,6 @@ export const UploadContainer = styled.View`
 export const UploadButtonContainer = styled.View`
   width: 100%;
   text-align: center;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const DeleteBtn = styled.View`

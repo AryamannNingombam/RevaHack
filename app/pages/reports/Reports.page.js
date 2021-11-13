@@ -51,20 +51,20 @@ export default function ReportPage() {
       });
   };
 
-  const getReports =  () => {
+  const getReports = () => {
     console.log('get reports');
     if (showOwn) {
-     GetAllReportsForUser()
+      GetAllReportsForUser()
         .then((res) => {
-          console.log(res.data['reports'])
-          setReports(res.data['reports']? res.data['reports'] : []);
+          console.log(res.data['reports']);
+          setReports(res.data['reports'] ? res.data['reports'] : []);
           setToggle(true);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-       GetAllAccessedReportsForUser()
+      GetAllAccessedReportsForUser()
         .then((res) => res.data)
         .then((data) => {
           setReports(data.reports);
@@ -74,15 +74,15 @@ export default function ReportPage() {
     }
   };
 
-  const OnSharedReportsButtonPress = async()=>{
-    if(showOwn)setShowOwn(false);
-    else setShowOwn(true)
-  }
+  const OnSharedReportsButtonPress = async () => {
+    if (showOwn) setShowOwn(false);
+    else setShowOwn(true);
+  };
 
   useEffect(() => {
     setToggle(false);
     getReports();
-  }, [isFocused,showOwn]);
+  }, [isFocused, showOwn]);
 
   return (
     <SafeArea>
@@ -140,6 +140,7 @@ export default function ReportPage() {
                               id: data._id,
                               name: data.name,
                               date: data.date,
+                              userReportID: data.user,
                             });
                           }}
                           title={data.name ? data.name : 'Report ' + (idx + 1)}
@@ -173,19 +174,14 @@ export default function ReportPage() {
                     >
                       Upload a report
                     </Button>
-                    <Text style={{ textAlign: 'center', padding: 24 }}>
-                      No Reports To Show!
-                    </Text>
+                    <Text style={{ textAlign: 'center', padding: 24 }}>No Reports To Show!</Text>
                   </VerticalCenter>
                 </>
               )}
-               {!showOwn && reports.length == 0 && (
+              {!showOwn && reports.length == 0 && (
                 <>
                   <VerticalCenter style={{ marginTop: 40 }}>
-                 
-                    <Text style={{ textAlign: 'center', padding: 24 }}>
-                      No Reports To Show!
-                    </Text>
+                    <Text style={{ textAlign: 'center', padding: 24 }}>No Reports To Show!</Text>
                   </VerticalCenter>
                 </>
               )}

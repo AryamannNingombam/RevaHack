@@ -23,12 +23,10 @@ export const HeaderText = styled.Text`
   margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};
-  font-size: 20px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  width: 200px;
-  line-height: 33px;
-  letter-spacing: 1px;
+  width: 70%;
   text-align: left;
 `;
 
@@ -73,10 +71,8 @@ export const ImageGrid = styled.View`
 
 export const HealthAnalysis = styled.View`
   display: flex;
-  flex-direction: row;
   background: rgba(16, 202, 0, 0.13);
   border-radius: 20px;
   width: 90%;
   margin: 16px auto;
-  height: 160px;
 `;

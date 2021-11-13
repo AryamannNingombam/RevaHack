@@ -3,7 +3,11 @@ import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { GetAllAccessedReportsForUser, GetAllReportsForUser } from '../../services/user.service';
-import { GetSharedReportsByUser, GiveReportAccessToUser, MakeReportPrivate } from '../../services/report.service';
+import {
+  GetSharedReportsByUser,
+  GiveReportAccessToUser,
+  MakeReportPrivate,
+} from '../../services/report.service';
 import {
   List,
   Modal,
@@ -23,41 +27,34 @@ import { AccessButtonContainer, HeaderText, SingleReport } from './SharedReports
 export default function SharedReportsPage() {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
- 
 
   const [reports, setReports] = useState([]);
   const [toggle, setToggle] = useState(false);
 
- 
- 
-
   const getReports = async () => {
     GetSharedReportsByUser()
-    .then(response=>response.data)
-    .then(data=>{
-      setReports(data.reports);
-      setToggle(true)
-    })
-    .catch(err=>{
-      console.log('error');
-      console.log(err);
-    })
-    
+      .then((response) => response.data)
+      .then((data) => {
+        setReports(data.reports);
+        setToggle(true);
+      })
+      .catch((err) => {
+        console.log('error');
+        console.log(err);
+      });
   };
 
-  const OnPrivateButtonClick = (_id)=>{
-      MakeReportPrivate({_id})
-      .then(response=>response.data)
-      .then(data=>{
-        console.log(data)
+  const OnPrivateButtonClick = (_id) => {
+    MakeReportPrivate({ _id })
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data);
       })
-      .catch(err=>{
-        console.log("error");
-        console.log(err)
-      })
-  }
-
- 
+      .catch((err) => {
+        console.log('error');
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getReports();
@@ -68,7 +65,7 @@ export default function SharedReportsPage() {
       <Provider>
         <MainContainer>
           <HeaderText>Shared By You</HeaderText>
-        
+
           {toggle ? (
             <>
               {reports.length > 0 &&
@@ -82,19 +79,22 @@ export default function SharedReportsPage() {
                               id: data._id,
                               name: data.name,
                               date: data.date,
+                              userReportID: data.user,
                             });
                           }}
                           title={data.name ? data.name : 'Report ' + (idx + 1)}
                           description={new Date(data.date).toDateString()}
                           left={(props) => <List.Icon {...props} icon="file" />}
                           right={(props) => {
-                            return (<Button
+                            return (
+                              <Button
                                 labelStyle={{ color: Colors.blue300 }}
                                 {...props}
-                                onPress={async()=>{
+                                onPress={async () => {
                                   OnPrivateButtonClick(data._id);
                                   await getReports();
-                                }}>
+                                }}
+                              >
                                 Make Private
                               </Button>
                             );

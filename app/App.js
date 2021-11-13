@@ -6,7 +6,12 @@ import store from "./app/store";
 
 import { Provider } from "react-redux";
 
+
+
+
 export default function App() {
+
+
   const [loaded] = useFonts({
     BasisGrotesqueProBold: require("./fonts/BasisGrotesqueProBold.ttf"),
     BasisGrotesqueProMiddle: require("./fonts/BasisGrotesqueProMedium.ttf"),
@@ -17,7 +22,6 @@ export default function App() {
     <>
       <Provider store={store}>
         <Navigation />
-        <ExpoStatusBar style="auto" />
       </Provider>
     </>
   );

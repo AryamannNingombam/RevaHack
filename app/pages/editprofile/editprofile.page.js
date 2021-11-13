@@ -69,7 +69,11 @@ export default function EditProfilePage() {
             <MainHeading>Edit Profile</MainHeading>
           </HeadingSection>
           <ProfileImageSection>
-            <UserImage source={{ uri: 'https://source.unsplash.com/random/160x160' }} />
+            <UserImage
+              source={{
+                uri: 'https://images.unsplash.com/photo-1635795874662-139d7ce9d7d2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80',
+              }}
+            />
           </ProfileImageSection>
           <FormSection>
             <TextContainer>

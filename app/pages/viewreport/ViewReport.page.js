@@ -3,14 +3,25 @@ import { Image } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { DeleteReport, GetReportDetails } from '../../services/report.service';
-import { ButtonsContainer, ImgContainer, MainContainer, VerticalCenter,MainHeading,DateText } from './ViewReport.styles';
+import store from '../../app/store';
+import {
+  ButtonsContainer,
+  ImgContainer,
+  MainContainer,
+  VerticalCenter,
+  MainHeading,
+  DateText,
+} from './ViewReport.styles';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
 
-
-
 export default function ViewReportPage(props) {
-  const { id, name, date } = props.route.params;
+  const { id, name, date, userReportID } = props.route.params;
+  const { userData } = store.getState().auth;
+
+  const currentUserID = userData._id;
+  console.log(currentUserID);
+  console.log(userReportID);
   const [baseImg, setBaseImg] = React.useState('');
   const [loaded, setLoaded] = React.useState(false);
   const navigation = useNavigation();
@@ -22,19 +33,16 @@ export default function ViewReportPage(props) {
     }
   }, []);
 
-  const OnDeleteReportClick = ()=>{
-    DeleteReport({_id:id})
-    .then(response=>response.data)
-    .then(data=>{
-      console.log(data);
-      navigation.navigate('Home');
-    })
-    .catch(err=>{
-      console.log(err);
-      
-    })
-  }
-  
+  const OnDeleteReportClick = () => {
+    DeleteReport({ _id: id })
+      .then((response) => response.data)
+      .then((data) => {
+        navigation.navigate('Home');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <SafeArea>
@@ -76,25 +84,29 @@ export default function ViewReportPage(props) {
           >
             Download
           </Button>
-          <Button
-            mode="contained"
-            style={{ marginTop: 20 }}
-            color={Colors.blue400}
-            icon="share"
-            labelStyle={{ color: '#FFF' }}
-          >
-            Share
-          </Button>
-          <Button
-            mode="contained"
-            style={{ marginTop: 20 }}
-            color={Colors.red600}
-            icon="delete"
-            labelStyle={{ color: '#FFF' }}
-            onPress={OnDeleteReportClick}
-          >
-            Delete
-          </Button>
+          {currentUserID === userReportID ? (
+            <>
+              <Button
+                mode="contained"
+                style={{ marginTop: 20 }}
+                color={Colors.blue400}
+                icon="share"
+                labelStyle={{ color: '#FFF' }}
+              >
+                Share
+              </Button>
+              <Button
+                mode="contained"
+                style={{ marginTop: 20 }}
+                color={Colors.red600}
+                icon="delete"
+                labelStyle={{ color: '#FFF' }}
+                onPress={OnDeleteReportClick}
+              >
+                Delete
+              </Button>
+            </>
+          ) : null}
         </ButtonsContainer>
       </MainContainer>
     </SafeArea>

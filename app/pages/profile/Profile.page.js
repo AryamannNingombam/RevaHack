@@ -8,7 +8,7 @@ import { Image, TouchableOpacity } from 'react-native';
 import { IconButton, Colors } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import profileImg from '../../assets/donut.jpeg';
 import IconOg from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -60,7 +60,7 @@ export default function Profile() {
           </EditBtnContainer>
         </BtnContainer>
         <UserDetailContainer>
-          <UserImage source={{ uri: 'https://source.unsplash.com/random/160x160' }} />
+          <UserImage source={profileImg} />
           <UserNameText>{userDetails.name}</UserNameText>
           <UserSubtitleText>User</UserSubtitleText>
         </UserDetailContainer>
@@ -83,30 +83,30 @@ export default function Profile() {
             <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
           </ServiceContainer>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
-        onPress={()=>{
-          navigation.navigate('SharedReports');
-        }}
+          onPress={() => {
+            navigation.navigate('SharedReports');
+          }}
         >
-        <ServiceContainer>
-          <Icon name={'file-medical'} size={24}></Icon>
-          <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Shared Reports</ServiceText>
-          <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
-        </ServiceContainer>
-          </TouchableOpacity>
-        
-          <TouchableOpacity
-        onPress={()=>{
-          navigation.navigate('Settings');
-        }}
+          <ServiceContainer>
+            <Icon name={'file-medical'} size={24}></Icon>
+            <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Shared Reports</ServiceText>
+            <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
+          </ServiceContainer>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}
         >
-        <ServiceContainer>
-          <IconOg name={'gear'} size={24}></IconOg>
-          <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Settings</ServiceText>
-          <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
-        </ServiceContainer>
-</TouchableOpacity>
+          <ServiceContainer>
+            <IconOg name={'gear'} size={24}></IconOg>
+            <ServiceText style={{ paddingLeft: 16, fontSize: 16 }}>Settings</ServiceText>
+            <Icon name={'chevron-right'} size={24} style={{ width: 24, marginLeft: 'auto' }}></Icon>
+          </ServiceContainer>
+        </TouchableOpacity>
         <HelpContainer>
           <Image source={require('../../assets/help.png')} />
           <HelpText>How can we help you ?</HelpText>

@@ -12,34 +12,35 @@ import {
   TextSection,
   StartedButton,
 } from './login.styles';
-import store from '../../app/store';
 import { LoginThunk } from '../../app/auth.slice';
 import { TouchableOpacity } from 'react-native';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import { VerticalCenter } from '../viewreport/ViewReport.styles';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { HeaderText } from '../reports/Reports.styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function LoginPage({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const {userData} = useSelector(state => state.auth);
+  const dispatch = useDispatch()
   const OnSignInClick = (e) => {
     e.preventDefault();
 
     setSubmitted(true);
-    store
-      .dispatch(LoginThunk({ email, password }))
-      .then(() => {})
-      .catch((err) => {
+    try {
+      dispatch(LoginThunk({ email, password }))
+    } catch(err){
         console.log('error');
         console.log(err);
-      });
-    setSubmitted(false);
+      };
+      setSubmitted(false);
   };
 
   return (
-    <SafeArea>
+    <SafeArea out>
       <MainContainer>
         {submitted ? (
           <>
@@ -71,6 +72,7 @@ export default function LoginPage({ navigation }) {
               uppercase={false}
               labelStyle={{ fontSize: 20, fontFamily: 'BasisGrotesqueProBold' }}
               onPress={OnSignInClick}
+              loading={(submitted && userData) ? true : false}
             >
               Login
             </StartedButton>

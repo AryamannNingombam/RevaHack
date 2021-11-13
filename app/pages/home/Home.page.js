@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { Image } from 'react-native';
-import { Button, Colors, Text } from 'react-native-paper';
+import { Button, Colors, ProgressBar } from 'react-native-paper';
 import { SafeArea } from '../../components/utility/safe-area.component';
 import Carousel from 'react-native-snap-carousel';
 import { Dimensions } from 'react-native';
 import { PRIMARY_FONT } from '../../constants';
 import { useIsFocused } from '@react-navigation/native';
+import profileImg from '../../assets/donut.jpeg';
+
 import {
   MainContainer,
   TopRow,
@@ -18,7 +20,7 @@ import {
   HealthAnalysis,
 } from './Home.styles';
 import { DateText } from '../viewreport/ViewReport.styles';
-import { UserSubtitleText } from '../profile/Profile.styles';
+import { HelpText, UserSubtitleText } from '../profile/Profile.styles';
 import { useSelector } from 'react-redux';
 import { GetAllReportsForUser } from '../../services/user.service';
 import { useNavigation } from '@react-navigation/core';
@@ -28,31 +30,10 @@ export default function HomePage() {
   const { userData } = useSelector((state) => state.auth);
   const windowWidth = Dimensions.get('window').width;
   const isFocused = useIsFocused();
-  const [carouselItems, setCarouselItems] = React.useState([
-    {
-      title: 'Covid Report 1',
-      text: 'Text 1',
-    },
-    {
-      title: 'Covid Report 2',
-      text: 'Text 2',
-    },
-    {
-      title: 'Covid Report 3',
-      text: 'Text 3',
-    },
-    {
-      title: 'Covid Report 4',
-      text: 'Text 4',
-    },
-    {
-      title: 'Covid Report 5',
-      text: 'Text 5',
-    },
-  ]);
+  const [carouselItems, setCarouselItems] = React.useState([]);
   const _renderItem = ({ item, index }) => {
     return (
-      <ReportBox style={{ width: windowWidth * 0.6 }}>
+      <ReportBox style={{ width: windowWidth * 0.6, height: 250 }}>
         <Container>
           <ReportText>{item.name}</ReportText>
           <DateText style={{ marginLeft: 18, marginTop: 8, color: '#fFF' }}>
@@ -65,6 +46,7 @@ export default function HomePage() {
               id: item._id,
               name: item.name,
               date: item.date,
+              userReportID: data.user,
             });
           }}
           color={Colors.white}
@@ -79,9 +61,9 @@ export default function HomePage() {
   };
 
   const getReports = async () => {
+    console.log('get reports');
     await GetAllReportsForUser()
       .then((res) => {
-        console.log(res.data);
         setCarouselItems(res.data['reports']);
       })
       .catch((err) => {
@@ -96,65 +78,122 @@ export default function HomePage() {
     <SafeArea>
       <MainContainer>
         <TopRow>
-          <HeaderText>Welcome, {userData.name}</HeaderText>
+          <HeaderText>Hey, {userData.name.split(' ')[0]}!</HeaderText>
           <Image
-            source={{ uri: 'https://source.unsplash.com/random/160x160' }}
+            source={profileImg}
             style={{ width: 50, height: 50, borderRadius: 8, marginRight: 24 }}
           />
         </TopRow>
+        <UserSubtitleText style={{ marginLeft: 24 }}>My Reports</UserSubtitleText>
 
         <RecentReports>
-          <Carousel
-            layout={'stack'}
-            layoutCardOffset={10}
-            data={carouselItems}
-            renderItem={_renderItem}
-            itemWidth={windowWidth * 0.8}
-            sliderWidth={windowWidth}
-          />
+          {carouselItems.length > 0 ? (
+            <Carousel
+              layout={'stack'}
+              layoutCardOffset={10}
+              data={carouselItems}
+              renderItem={_renderItem}
+              itemWidth={windowWidth * 0.8}
+              sliderWidth={windowWidth}
+            />
+          ) : (
+            <>
+              <Button
+                style={{ backgroundColor: Colors.blue400, marginLeft: 8, marginRight: 8 }}
+                color={Colors.white}
+                onPress={() => {
+                  navigation.navigate('Upload');
+                }}
+                labelStyle={{ color: Colors.white }}
+              >
+                Upload a report
+              </Button>
+              <UserSubtitleText style={{ textAlign: 'center', marginTop: 16 }}>
+                No Reports Added yet!
+              </UserSubtitleText>
+            </>
+          )}
         </RecentReports>
 
         <UserSubtitleText style={{ marginLeft: 24 }}>Health analysis</UserSubtitleText>
 
-        <HealthAnalysis></HealthAnalysis>
+        <HealthAnalysis>
+          {/* <Image source={require('../../assets/help.png')} /> */}
+          <HelpText
+            style={{
+              marginTop: 24,
+              marginBottom: 0,
+              paddingBottom: 0,
+              fontSize: 20,
+              marginLeft: 2,
+            }}
+          >
+            Your Activity
+          </HelpText>
+          <UserSubtitleText
+            style={{
+              marginLeft: 20,
+              marginRight: 24,
+              fontSize: 24,
+              paddingTop: 32,
+              marginBottom: 8,
+              color: Colors.green400,
+            }}
+          >
+            67%
+          </UserSubtitleText>
+          <ProgressBar
+            style={{ marginLeft: 24, marginRight: 24, marginBottom: 30 }}
+            progress={0.67}
+            color={Colors.green600}
+          />
+        </HealthAnalysis>
 
         <UserSubtitleText style={{ marginLeft: 24 }}>Popular doctors around</UserSubtitleText>
         <ImageGrid>
           <Image
-            source={{ uri: 'https://source.unsplash.com/random/500x500' }}
+            source={{
+              uri: 'https://cdn2.vectorstock.com/i/thumb-large/75/81/default-placeholder-doctor-half-length-portrait-vector-20847581.jpg',
+            }}
             style={{
               width: windowWidth * 0.4,
-              height: windowWidth * 0.4,
+              height: windowWidth * 0.45,
               borderRadius: 8,
               margin: 8,
               marginTop: 24,
             }}
           />
           <Image
-            source={{ uri: 'https://source.unsplash.com/random/500x500' }}
+            source={{
+              uri: 'https://cdn2.vectorstock.com/i/thumb-large/34/66/default-placeholder-doctor-half-length-portrait-vector-20773466.jpg',
+            }}
             style={{
               width: windowWidth * 0.4,
-              height: windowWidth * 0.4,
+              height: windowWidth * 0.45,
               borderRadius: 8,
               margin: 8,
               marginTop: 24,
             }}
           />
           <Image
-            source={{ uri: 'https://source.unsplash.com/random/500x500' }}
+            source={{
+              uri: 'https://cdn2.vectorstock.com/i/thumb-large/75/86/default-placeholder-doctor-half-length-portrait-vector-20847586.jpg',
+            }}
             style={{
               width: windowWidth * 0.4,
-              height: windowWidth * 0.4,
+              height: windowWidth * 0.45,
               borderRadius: 8,
               margin: 8,
               marginTop: 24,
             }}
           />
           <Image
-            source={{ uri: 'https://source.unsplash.com/random/500x500' }}
+            source={{
+              uri: 'https://cdn1.vectorstock.com/i/thumb-large/75/75/default-placeholder-doctor-half-length-portrait-vector-20847575.jpg',
+            }}
             style={{
               width: windowWidth * 0.4,
-              height: windowWidth * 0.4,
+              height: windowWidth * 0.45,
               borderRadius: 8,
               margin: 8,
               marginTop: 24,
