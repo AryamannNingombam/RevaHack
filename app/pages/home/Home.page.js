@@ -31,7 +31,7 @@ export default function HomePage() {
   const [carouselItems, setCarouselItems] = React.useState([]);
   const _renderItem = ({ item, index }) => {
     return (
-      <ReportBox style={{ width: windowWidth * 0.6 }}>
+      <ReportBox style={{ width: windowWidth * 0.6, height: 250 }}>
         <Container>
           <ReportText>{item.name}</ReportText>
           <DateText style={{ marginLeft: 18, marginTop: 8, color: '#fFF' }}>
@@ -87,7 +87,7 @@ export default function HomePage() {
         <RecentReports>
           {carouselItems.length > 0 ? (
             <Carousel
-              layout={'stack'}
+              layout={'tinder'}
               layoutCardOffset={10}
               data={carouselItems}
               renderItem={_renderItem}
