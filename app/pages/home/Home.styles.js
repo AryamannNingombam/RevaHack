@@ -71,10 +71,8 @@ export const ImageGrid = styled.View`
 
 export const HealthAnalysis = styled.View`
   display: flex;
-  flex-direction: row;
   background: rgba(16, 202, 0, 0.13);
   border-radius: 20px;
   width: 90%;
   margin: 16px auto;
-  height: 160px;
 `;
