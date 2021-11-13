@@ -29,7 +29,7 @@ export default function UploadReview({ navigation }) {
     setSelectedImage(result);
   };
   return (
-    <SafeArea>
+    <SafeArea out>
       <MainContainer>
         <HeadingSection>
           <MainHeading>Upload Your Profile</MainHeading>

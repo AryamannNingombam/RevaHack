@@ -23,7 +23,7 @@ export default function RegisterPage({ navigation }) {
   const [email, setEmail] = useState("");
 
   return (
-    <SafeArea>
+    <SafeArea out>
       <MainContainer>
         <TextSection>
           <MainHeading>Hello</MainHeading>

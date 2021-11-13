@@ -52,7 +52,7 @@ const PreLoginScreen = ({ navigation }) => {
 
   return (
     <>
-      <SafeArea>
+      <SafeArea out>
         <BackgroundImage>
           <WelcomeText>Welcome to</WelcomeText>
           <TitleText>MREX</TitleText>

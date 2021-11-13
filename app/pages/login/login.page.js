@@ -39,7 +39,7 @@ export default function LoginPage({ navigation }) {
   };
 
   return (
-    <SafeArea>
+    <SafeArea out>
       <MainContainer>
         {submitted ? (
           <>

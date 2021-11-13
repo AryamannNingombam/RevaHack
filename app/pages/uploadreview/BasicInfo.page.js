@@ -35,7 +35,7 @@ export default function BasicInfo({ navigation, route }) {
   const onDismissSnackBar = () => setVisible(false);
 
   return (
-    <SafeArea>
+    <SafeArea out>
       <MainContainer>
         <HeadingSection>
           <MainHeading>Your Basic Info</MainHeading>
