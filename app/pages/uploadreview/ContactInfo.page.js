@@ -21,7 +21,7 @@ import { SafeArea } from "../../components/utility/safe-area.component";
 
 export default function ContactInfo({ navigation }) {
   return (
-    <SafeArea>
+    <SafeArea out>
       <MainContainer>
         <HeadingSection>
           <MainHeading>Your Contact Info</MainHeading>

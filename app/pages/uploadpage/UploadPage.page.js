@@ -116,7 +116,6 @@ export default function UploadPage() {
           )}
 
           <UploadButtonContainer>
-            <SaveButtonSection>
               <Button
                 disabled={!text && report?.uri}
                 onPress={uploadReport}
@@ -124,13 +123,20 @@ export default function UploadPage() {
                   borderRadius: 30,
                   backgroundColor: text && report?.uri ? 'black' : 'darkgray',
                   color: 'white',
+                  padding: 8,
+                  alignSelf: 'flex-end',
+                  marginRight:16,
+                  width: 130
+                }}
+                labelStyle={{ fontSize: 16, 
                   fontFamily: `${PRIMARY_FONT}`,
+                
                 }}
                 mode="contained"
+                uppercase={false}
               >
-                UPLOAD
+                Upload
               </Button>
-            </SaveButtonSection>
           </UploadButtonContainer>
         </MainContainer>
       )}
