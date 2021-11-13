@@ -316,10 +316,16 @@ exports.GetReportOfOtherUser = async (req, res, next) => {
     _id
   } = req.params;
   if (!email || !_id)
-    return res.status(500).json({
-      success: false,
-      message: "Reuired values not provided!",
-    });
+{
+  console.log(email,_id);
+  return res.status(500).json({
+    success: false,
+    message: "Reuired values not provided!",
+  });
+
+
+}
+  
   const user = await UserModel.findOne({
     email
   });
@@ -337,11 +343,30 @@ exports.GetReportOfOtherUser = async (req, res, next) => {
   return ReportModel.findById({
       _id
     })
-    .then((report) => {
+    .then(async(report) => {
+      const algorithm = "aes-256-cbc";
+      const iv = "5183666c72eec9e4";
+      const hash = report.metadata.hash;
+      const secretKey = report.metadata.secretKey;
+      const recData = await client.cat(hash);
+      var data = new Uint8Array();
+      for await (const item of recData) {
+        prevData = data;
+        data = new Uint8Array(data.length + item.length);
+        data.set(prevData);
+        data.set(item, prevData.length);
+      }
+      console.log(crypto.createHash("sha256").update(data).digest("hex"));
+      console.log(data.length);
+      const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
+      let decData = decipher.update(data);
+      decData = Buffer.concat([decData, decipher.final()]);
       return res.status(200).json({
         success: true,
         report,
+        data: decData.toString("base64"),
       });
+     
     })
     .catch((err) => {
       console.log("error");

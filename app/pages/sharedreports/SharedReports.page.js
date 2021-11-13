@@ -35,8 +35,10 @@ export default function SharedReportsPage() {
     GetSharedReportsByUser()
       .then((response) => response.data)
       .then((data) => {
+        
         setReports(data.reports);
         setToggle(true);
+        console.log("vvvvv",data)
       })
       .catch((err) => {
         console.log('error');

@@ -65,6 +65,20 @@ export const DeleteReport = (body) => {
   });
 };
 
+
+
+export const GetSharedReport = async (_id) => {
+  const {
+    token
+  } = store.getState().auth;
+  if (!token) throw new Error("Token not found!");
+  return await axios.get(`${BACKEND_URL}/api/report/get-report-of-other-user/${_id}`, {
+    headers: {
+      token,
+    },
+  });
+};
+
 export const GetReportDetails = async (_id) => {
   const {
     token

@@ -22,7 +22,7 @@ const router = express.Router();
 router.post("/add-report", CheckJWT, upload.single("file"), AddReport);
 router.get("/get-all-users-for-report/:_id", CheckJWT, GetAllUsersForReport);
 
-router.get("/get-report-of-other-user/_id", CheckJWT, GetReportOfOtherUser);
+router.get("/get-report-of-other-user/:_id", CheckJWT, GetReportOfOtherUser);
 router.post("/delete-report", CheckJWT, DeleteReport);
 
 router.post('/delete-all-reports-for-user',CheckJWT,DeleteAllReportsForUser)

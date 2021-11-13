@@ -5,6 +5,7 @@ import { SafeArea } from '../../components/utility/safe-area.component';
 import {
   DeleteReport,
   GetReportDetails,
+  GetSharedReport,
   GiveReportAccessToUser,
 } from '../../services/report.service';
 import store from '../../app/store';
@@ -55,7 +56,13 @@ export default function ViewReportPage(props) {
   const navigation = useNavigation();
   useEffect(async () => {
     if (id) {
-      const res = await GetReportDetails(id);
+      let res;
+      if(userReportID === currentUserID){
+       res = await GetReportDetails(id);
+      }else{
+        res = await GetSharedReport(id);
+        console.log(res.data)
+      }
       setBaseImg(res.data.data);
       setLoaded(true);
     }
