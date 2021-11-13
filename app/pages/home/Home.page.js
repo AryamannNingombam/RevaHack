@@ -6,6 +6,8 @@ import Carousel from 'react-native-snap-carousel';
 import { Dimensions } from 'react-native';
 import { PRIMARY_FONT } from '../../constants';
 import { useIsFocused } from '@react-navigation/native';
+import profileImg from '../../assets/donut.jpeg';
+
 import {
   MainContainer,
   TopRow,
@@ -78,7 +80,7 @@ export default function HomePage() {
         <TopRow>
           <HeaderText>Hey, {userData.name.split(' ')[0]}!</HeaderText>
           <Image
-            source={{ uri: 'https://source.unsplash.com/random/160x160' }}
+            source={profileImg}
             style={{ width: 50, height: 50, borderRadius: 8, marginRight: 24 }}
           />
         </TopRow>
@@ -151,7 +153,7 @@ export default function HomePage() {
         <ImageGrid>
           <Image
             source={{
-              uri: 'https://cdn2.vectorstock.com/i/1000x1000/75/81/default-placeholder-doctor-half-length-portrait-vector-20847581.jpg',
+              uri: 'https://cdn2.vectorstock.com/i/thumb-large/75/81/default-placeholder-doctor-half-length-portrait-vector-20847581.jpg',
             }}
             style={{
               width: windowWidth * 0.4,

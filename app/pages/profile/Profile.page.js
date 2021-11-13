@@ -8,7 +8,7 @@ import { Image, TouchableOpacity } from 'react-native';
 import { IconButton, Colors } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import profileImg from '../../assets/donut.jpeg';
 import IconOg from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -60,7 +60,7 @@ export default function Profile() {
           </EditBtnContainer>
         </BtnContainer>
         <UserDetailContainer>
-          <UserImage source={{ uri: 'https://source.unsplash.com/random/160x160' }} />
+          <UserImage source={profileImg} />
           <UserNameText>{userDetails.name}</UserNameText>
           <UserSubtitleText>User</UserSubtitleText>
         </UserDetailContainer>
