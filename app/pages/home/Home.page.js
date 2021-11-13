@@ -46,7 +46,7 @@ export default function HomePage() {
               id: item._id,
               name: item.name,
               date: item.date,
-              userReportID: data.user,
+              userReportID: item.user,
             });
           }}
           color={Colors.white}
