@@ -15,15 +15,15 @@ export const MainContainer = styled.ScrollView`
 `;
 
 export const AccessButtonContainer = styled.View`
-margin:10px 0;
-display:flex;
-align-items:center;
-justify-content:center;
-width:100%;
-`
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
 export const HeaderText = styled.Text`
-  margin: 24px 16px;
+  margin: 32px 16px;
   margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};
@@ -32,7 +32,8 @@ export const HeaderText = styled.Text`
   font-weight: 700;
   line-height: 33px;
   letter-spacing: 0;
-  text-align:center`;
+  text-align: center;
+`;
 
 export const FormView = styled.View`
   width: 100%;

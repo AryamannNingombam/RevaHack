@@ -79,9 +79,9 @@ export default function HomePage() {
   };
 
   const getReports = async () => {
+    console.log('get reports');
     await GetAllReportsForUser()
       .then((res) => {
-        console.log(res.data);
         setCarouselItems(res.data['reports']);
       })
       .catch((err) => {
