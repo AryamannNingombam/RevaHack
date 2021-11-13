@@ -149,3 +149,16 @@ export const GiveReportAccessToUser = async (body) => {
       return error.response.data;
     });
 };
+
+
+export const ChangeReportName = (body) =>{
+  const {token} = store.getState().auth;
+  if (!token)throw new Error("FOSDNFjodnsf");
+
+  return axios.put(`${BACKEND_URL}/api/report/change-report-name`,body,{
+    headers:{
+      token
+    }
+  })
+
+}

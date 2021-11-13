@@ -11,7 +11,7 @@ export const ImgContainer = styled.View`
 `;
 export const MainHeading = styled.Text`
 text-align: center;
-margin: 24px 16px;
+margin: 24px 0px;
   margin-bottom: 12px;
   color: #575757;
   font-family: ${PRIMARY_FONT};

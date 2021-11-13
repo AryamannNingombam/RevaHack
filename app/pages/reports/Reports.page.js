@@ -29,6 +29,7 @@ export default function ReportPage() {
   const [email, setEmail] = useState('');
   const [reports, setReports] = useState([]);
   const [toggle, setToggle] = useState(false);
+  
 
   const showModal = (id) => {
     setCurrentRep(id);
